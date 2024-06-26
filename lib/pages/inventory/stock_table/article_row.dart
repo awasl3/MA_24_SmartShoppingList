@@ -33,7 +33,9 @@ class ArticleRow {
       children: [
         MaterialButton(
           minWidth: 0,
-  onPressed: () {},
+  onPressed: () {
+     ref.watch(articleToBeEdited.notifier).state = article;
+  },
   elevation: 2.0,
   color: Colors.green,
   shape: const CircleBorder(),
