@@ -20,7 +20,7 @@ final GoRouter router = GoRouter(routes: <RouteBase>[
         GoRoute(
             name: routes[1],
             path: routes[1],
-            builder: (context, state) => buildScreenPage(const Inventory(), 1)),
+            builder: (context, state) => buildScreenPage(const InventoryPage(), 1)),
         GoRoute(
             name: routes[2],
             path: routes[2],

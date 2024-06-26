@@ -38,6 +38,9 @@ dependencies:
   go_router: ^14.2.0
   flutter_riverpod: ^2.5.1
   flutter_material_symbols: ^0.0.4
+  sqflite: ^2.3.3+1
+  path: ^1.9.0
+  units_converter: ^3.0.0
 
 dev_dependencies:
   flutter_test:
