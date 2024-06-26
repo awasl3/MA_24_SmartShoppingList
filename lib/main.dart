@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart';
 import 'package:smart_shopping_list/util/routing/router.dart';
 import 'package:sqflite/sqflite.dart';
@@ -25,13 +26,14 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
+    return ProviderScope(
+        child: MaterialApp.router(
       title: 'Smart Shopping List',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
       routerConfig: router,
-    );
+    ));
   }
 }
