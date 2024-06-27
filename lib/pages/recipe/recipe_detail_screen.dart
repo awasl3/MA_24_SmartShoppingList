@@ -24,13 +24,25 @@ class RecipeDetailScreen extends StatelessWidget {
             SizedBox(height: 16),
             Text('Ingredients', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
             SizedBox(height: 8),
-            ...recipe.ingredients.map((ingredient) => Text(ingredient)).toList(),
+            Table(
+              border: TableBorder.all(),
+              children: [
+                TableRow(children: [
+                  TableCell(child: Padding(padding: EdgeInsets.all(8), child: Text('Name'))),
+                  TableCell(child: Padding(padding: EdgeInsets.all(8), child: Text('Quantity'))),
+                  TableCell(child: Padding(padding: EdgeInsets.all(8), child: Text('Measurement'))),
+                ]),
+                ...recipe.ingredients.map((ingredient) => TableRow(children: [
+                  TableCell(child: Padding(padding: EdgeInsets.all(8), child: Text(ingredient.name))),
+                  TableCell(child: Padding(padding: EdgeInsets.all(8), child: Text(ingredient.amount.toString()))),
+                  TableCell(child: Padding(padding: EdgeInsets.all(8), child: Text(ingredient.unit))),
+                ])).toList(),
+              ],
+            ),
             SizedBox(height: 16),
             Text('Instructions', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
             SizedBox(height: 8),
-            recipe.instructions != null
-                ? Text(recipe.instructions!)
-                : Text('No instructions available'),
+            Text(recipe.instructions),
           ],
         ),
       ),
