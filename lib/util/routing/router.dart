@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_shopping_list/pages/inventory/inventory.dart';
-import 'package:smart_shopping_list/pages/recipe/recipe.dart';
+import 'package:smart_shopping_list/pages/recipe/recipe_search_screen.dart';
 import 'package:smart_shopping_list/pages/screenpage/screen_page.dart';
 import 'package:smart_shopping_list/pages/shopping_list/shopping_list.dart';
 
@@ -24,7 +24,7 @@ final GoRouter router = GoRouter(routes: <RouteBase>[
         GoRoute(
             name: routes[2],
             path: routes[2],
-            builder: (context, state) => buildScreenPage(const Recipe(), 2))
+            builder: (context, state) => buildScreenPage(const RecipeSearchScreen(), 2))
       ]),
 ]);
 
