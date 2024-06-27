@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_shopping_list/util/routing/provider/providers.dart';
 
-class StockTableHeader {
+class StockTableHeader extends ConsumerWidget{
  
   static List<DataColumn> getTableHeader(WidgetRef ref) {
     return [
@@ -27,6 +27,12 @@ class StockTableHeader {
       ))
       
     ];
+  }
+  
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Center(
+      child: Text("Current Stock",style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold)));
   }
   
 }

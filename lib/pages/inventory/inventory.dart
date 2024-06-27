@@ -13,7 +13,9 @@ class InventoryPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context,WidgetRef ref) {
     ref.watch(articlesChanged);
-    return  FutureBuilder<List<Article>>(
+    return  Center(
+      heightFactor: 1,
+      child:FutureBuilder<List<Article>>(
             future: getAllArticles(),
             builder: (ctx, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
@@ -22,10 +24,11 @@ class InventoryPage extends ConsumerWidget {
               }
 
               return const CircularProgressIndicator();
-            });
+            }));
   }
 
   Future<List<Article>> getAllArticles() async {
+    ArticleDatabase.insertArticle(Article(name: "namedknfanslöfasdlfasöfkjasdföklasdjflsadkjföasdkjföokasdfjasdklöfasklf "+ Random().nextInt(100).toString(), currentAmount: 3.0, dailyUsage: 2.5, unit: "Liter", rebuyAmount: 1.0));
     return await ArticleDatabase.getAllArticles();
   }
 }
