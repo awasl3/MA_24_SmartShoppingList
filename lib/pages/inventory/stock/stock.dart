@@ -43,4 +43,28 @@ class Stock {
       }
     }
   }
+
+
+  static Future<void> subtractDailyUsage() async {
+    List<Article> articles = await ArticleDatabase.getAllArticles();
+    for (Article article in articles) {
+      if(article.dailyUsage > 0) {
+        double newAmount = article.currentAmount- article.dailyUsage;
+        Article updatedArticle= Article(name: article.name, currentAmount: newAmount, dailyUsage: article.dailyUsage, unit: article.unit, rebuyAmount: article.rebuyAmount);
+        ArticleDatabase.updateArticle(updatedArticle);
+      }
+    }
+  }
+
+  static Future<void> addRebuyAmount(Map<String,int> shoppingCart) async {
+    shoppingCart.forEach((key, value) async {
+      Article? article = await ArticleDatabase.getArticle(key);
+        if(article != null) {
+          double newAmount = article.currentAmount + value * article.rebuyAmount;
+          Article updatedArticle= Article(name: article.name, currentAmount: newAmount, dailyUsage: article.dailyUsage, unit: article.unit, rebuyAmount: article.rebuyAmount);
+          ArticleDatabase.updateArticle(updatedArticle);
+          await ArticleDatabase.updateArticle(article);
+        }
+    });
+  }
 }

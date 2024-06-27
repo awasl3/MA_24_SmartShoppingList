@@ -16,9 +16,7 @@ class ArticleRow {
       cells: 
     [
       DataCell(Text(article.name)),
-      DataCell(Text("${article.currentAmount}")),
-      DataCell(Text("${article.dailyUsage}")),
-      DataCell(Text(article.unit)),
+      DataCell(Text("${article.currentAmount } ${article.unit}")),
       DataCell(Text("${article.rebuyAmount}")),
       DataCell(editButtons())
     ]

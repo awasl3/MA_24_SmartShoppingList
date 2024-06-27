@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -332,6 +333,7 @@ class StockTable extends ConsumerWidget {
                             if (value != null && value.isNotEmpty) {
                               dailyUsage = double.parse(value);
                             }
+                           
                           },
                           autovalidateMode: AutovalidateMode.always,
                           validator: (String? value) {
@@ -397,13 +399,13 @@ class StockTable extends ConsumerWidget {
                       child: const Text('Cancel'),
                     ),
                     TextButton(
-                      onPressed: () async {
+                      onPressed: name.isNotEmpty && unit.isNotEmpty ? () async {
                             Article updated = Article(name: name, currentAmount: currentAmount, dailyUsage: dailyUsage, unit: unit, rebuyAmount: rebuyAmount);
                             await ArticleDatabase.insertArticle(updated);
                         ref.watch(articleCreation.notifier).state = false;
                         ref.watch(articlesChanged.notifier).state = !ref.watch(articlesChanged);
                         Navigator.pop(context, 'Confirm');
-                      },
+                      }: null,
                       child: const Text('Confirm'),
                     ),
                   ],

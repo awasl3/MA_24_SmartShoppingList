@@ -9,8 +9,6 @@ class StockTableHeader {
       const DataColumn(label: Text("Name")),
       const DataColumn(label: Text("Current Amount")),
       const DataColumn(label: Text("Daily Usage")),
-      const DataColumn(label: Text("Unit")),
-      const DataColumn(label: Text("Rebuy Amount")),
        DataColumn(label: 
           Center(child:
           MaterialButton(
