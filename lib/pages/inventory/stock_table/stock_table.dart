@@ -34,7 +34,15 @@ class StockTable extends ConsumerWidget {
       if (article != null) {
         await showDialog<String>(
             context: context,
-            builder: (context) => AlertDialog(
+            builder: (context) =>
+            PopScope(
+              onPopInvoked: (didPop) {
+                if(didPop) {
+                  ref.watch(articleToBeDeleted.notifier).state = null;
+                }
+              },
+              child:
+             AlertDialog(
                   title: Text("Article ${article.name} deletion"),
                   content: Text(
                       'Are you sure, you want to deleted article ${article.name} from the stock.\nThis action can not be undone'),
@@ -57,7 +65,7 @@ class StockTable extends ConsumerWidget {
                       child: const Text('Confirm'),
                     ),
                   ],
-                ));
+                )));
       }
     });
   }
@@ -73,7 +81,14 @@ class StockTable extends ConsumerWidget {
         double rebuyAmount = article.rebuyAmount;
         await showDialog<String>(
             context: context,
-            builder: (context) => AlertDialog(
+            builder: (context) => 
+            PopScope(
+              onPopInvoked: (didPop) {
+                if(didPop) {
+                  ref.watch(articleToBeEdited.notifier).state = null;
+                }
+              },
+              child: AlertDialog(
                   scrollable: true,
                   title: Text("Article ${article.name} editor"),
                   content:
@@ -134,7 +149,7 @@ class StockTable extends ConsumerWidget {
                               labelText: "Daily usage",
                               hintText:
                                   'Please provide the daily usage of the article'),
-                          initialValue: currentAmount.toString(),
+                          initialValue: dailyUsage.toString(),
                           onChanged: (String? value) {
                             if (value != null && value.isNotEmpty) {
                               dailyUsage = double.parse(value);
@@ -223,7 +238,7 @@ class StockTable extends ConsumerWidget {
                       child: const Text('Confirm'),
                     ),
                   ],
-                ));
+                )));
       }
     });
   }
