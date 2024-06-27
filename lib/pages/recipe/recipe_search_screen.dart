@@ -67,7 +67,7 @@ class _RecipeSearchScreenState extends State<RecipeSearchScreen> {
                       Recipe recipe = _recipes[index];
                       return ListTile(
                         title: Text(recipe.title),
-                        subtitle: Text('Ready in ${recipe.readyInMinutes} minutes'),
+                        //subtitle: Text('Ready in ${recipe.readyInMinutes} minutes'),
                         leading: recipe.imageUrl.isNotEmpty
                             ? Image.network(recipe.imageUrl)
                             : null,

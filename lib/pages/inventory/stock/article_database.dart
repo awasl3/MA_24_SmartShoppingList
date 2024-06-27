@@ -1,6 +1,7 @@
 import 'package:smart_shopping_list/main.dart';
 import 'package:smart_shopping_list/pages/inventory/stock/article.dart';
 import 'package:sqflite/sqflite.dart';
+import 'dart:async';
 
 class ArticleDatabase {
   static Future<void> insertArticle(Article article) async {
@@ -72,4 +73,18 @@ class ArticleDatabase {
 
     }  
   }
+
+  Future<Map<String, double>> fetchInventory() async {
+    // This is a mock function. Replace it with your actual database fetch logic.
+    return {
+      'Tomato': 5.0,
+      'coconut milk': 2.0,
+      'pepper': 0.25,
+      'Olive Oil': 1.0,
+      // Add more ingredients as needed
+    };
+  }
 }
+
+
+
