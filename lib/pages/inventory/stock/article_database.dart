@@ -73,17 +73,6 @@ class ArticleDatabase {
 
     }  
   }
-
-  Future<Map<String, double>> fetchInventory() async {
-    // This is a mock function. Replace it with your actual database fetch logic.
-    return {
-      'Tomato': 5.0,
-      'coconut milk': 2.0,
-      'pepper': 0.25,
-      'Olive Oil': 1.0,
-      // Add more ingredients as needed
-    };
-  }
 }
 
 

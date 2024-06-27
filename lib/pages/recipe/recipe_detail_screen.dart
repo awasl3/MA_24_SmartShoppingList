@@ -10,12 +10,12 @@ class RecipeDetailScreen extends StatelessWidget {
   const RecipeDetailScreen({Key? key, required this.recipe}) : super(key: key);
 
   Future<Map<String, IngredientStatus>> _fetchInventoryAndCompare() async {
-    final inventory = await ArticleDatabase().fetchInventory();
     Map<String, IngredientStatus> ingredientAvailability = {};
 
     for (var ingredient in recipe.ingredients) {
-      if (inventory.containsKey(ingredient.name)) {
-        if (inventory[ingredient.name]! >= ingredient.amount) {
+      final article = await ArticleDatabase.getArticle(ingredient.name);
+      if (article != null) {
+        if (article.currentAmount >= ingredient.amount) {
           ingredientAvailability[ingredient.name] = IngredientStatus.available;
         } else {
           ingredientAvailability[ingredient.name] = IngredientStatus.notEnough;
