@@ -1,15 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:smart_shopping_list/util/routing/provider/providers.dart';
 
 class StockTableHeader {
  
-  static List<DataColumn> getTableHeader() {
+  static List<DataColumn> getTableHeader(WidgetRef ref) {
     return [
       const DataColumn(label: Text("Name")),
       const DataColumn(label: Text("Current Amount")),
       const DataColumn(label: Text("Daily Usage")),
-      const DataColumn(label: Text("Unit")),
-      const DataColumn(label: Text("Rebuy Amount")),
-      const DataColumn(label: Text("Edit")),
+       DataColumn(label: 
+          Center(child:
+          MaterialButton(
+          minWidth: 0,
+  onPressed: () {
+     ref.watch(articleCreation.notifier).state =  true;
+  },
+  elevation: 2.0,
+  color: Colors.green.withOpacity(0.8),
+  shape: const CircleBorder(),
+  child: const Icon(
+    Icons.add,
+  ),
+),
+        
+      ))
+      
     ];
   }
   

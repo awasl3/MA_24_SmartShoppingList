@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,10 +17,11 @@ class StockTable extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     buildDeletionDialog(context, ref);
     buildEditDialog(context, ref);
+    buildCreateDialog(context,ref);
     return SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: DataTable(
-          columns: StockTableHeader.getTableHeader(),
+          columns: StockTableHeader.getTableHeader(ref),
           rows: List<DataRow>.generate(
               articles.length,
               (index) =>
@@ -34,7 +36,15 @@ class StockTable extends ConsumerWidget {
       if (article != null) {
         await showDialog<String>(
             context: context,
-            builder: (context) => AlertDialog(
+            builder: (context) =>
+            PopScope(
+              onPopInvoked: (didPop) {
+                if(didPop) {
+                  ref.watch(articleToBeDeleted.notifier).state = null;
+                }
+              },
+              child:
+             AlertDialog(
                   title: Text("Article ${article.name} deletion"),
                   content: Text(
                       'Are you sure, you want to deleted article ${article.name} from the stock.\nThis action can not be undone'),
@@ -57,7 +67,7 @@ class StockTable extends ConsumerWidget {
                       child: const Text('Confirm'),
                     ),
                   ],
-                ));
+                )));
       }
     });
   }
@@ -73,7 +83,14 @@ class StockTable extends ConsumerWidget {
         double rebuyAmount = article.rebuyAmount;
         await showDialog<String>(
             context: context,
-            builder: (context) => AlertDialog(
+            builder: (context) => 
+            PopScope(
+              onPopInvoked: (didPop) {
+                if(didPop) {
+                  ref.watch(articleToBeEdited.notifier).state = null;
+                }
+              },
+              child: AlertDialog(
                   scrollable: true,
                   title: Text("Article ${article.name} editor"),
                   content:
@@ -134,7 +151,7 @@ class StockTable extends ConsumerWidget {
                               labelText: "Daily usage",
                               hintText:
                                   'Please provide the daily usage of the article'),
-                          initialValue: currentAmount.toString(),
+                          initialValue: dailyUsage.toString(),
                           onChanged: (String? value) {
                             if (value != null && value.isNotEmpty) {
                               dailyUsage = double.parse(value);
@@ -223,8 +240,176 @@ class StockTable extends ConsumerWidget {
                       child: const Text('Confirm'),
                     ),
                   ],
-                ));
+                )));
       }
+    });
+  }
+
+
+  void buildCreateDialog(BuildContext context, WidgetRef ref)  {
+    bool open = ref.watch(articleCreation);
+    if(!open) {
+      return;
+    }
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      
+        String name = "";
+        double currentAmount = 0;
+        double dailyUsage = 0;
+        String unit = "";
+        double rebuyAmount = 0;
+        await showDialog<String>(
+            context: context,
+            builder: (context) => 
+            PopScope(
+              onPopInvoked: (didPop) {
+                if(didPop) {
+                  ref.watch(articleCreation.notifier).state = false;
+                }
+              },
+              child: AlertDialog(
+                  scrollable: true,
+                  title: Text("Article creator"),
+                  content:
+                    Column(
+                      mainAxisSize:  MainAxisSize.min,
+                      children: [
+                        TextFormField(
+                          decoration: const InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(1000))),
+                              labelText: "Name",
+                              hintText:
+                                  'Please provide a name for the article'),
+                          initialValue: name,
+                          onChanged: (String? value) {
+                            if (value != null && value.isNotEmpty) {
+                              name = value;
+                            }
+                          },
+                          autovalidateMode: AutovalidateMode.always,
+                          validator: (String? value) {
+                            return (value == null || value.isEmpty)
+                                ? 'Name for article must be provided'
+                                : null;
+                          },
+                        ),
+                        SizedBox(height: 10),
+                         TextFormField(
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(1000))),
+                              labelText: "Current Amount",
+                              hintText:
+                                  'Please provide the current amount of the article'),
+                          initialValue: currentAmount.toString(),
+                          onChanged: (String? value) {
+                            if (value != null && value.isNotEmpty) {
+                              currentAmount = double.parse(value);
+                            }
+                          },
+                          autovalidateMode: AutovalidateMode.always,
+                          validator: (String? value) {
+                            return (value == null || value.isEmpty)
+                                ? 'Current amount of for article must be provided'
+                                : null;
+                          },
+                        ),
+                        SizedBox(height: 10),
+                         TextFormField(
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(1000))),
+                              labelText: "Daily usage",
+                              hintText:
+                                  'Please provide the daily usage of the article'),
+                          initialValue: dailyUsage.toString(),
+                          onChanged: (String? value) {
+                            if (value != null && value.isNotEmpty) {
+                              dailyUsage = double.parse(value);
+                            }
+                           
+                          },
+                          autovalidateMode: AutovalidateMode.always,
+                          validator: (String? value) {
+                            return (value == null || value.isEmpty)
+                                ? 'Daily usage of for article must be provided'
+                                : null;
+                          },
+                        )  ,
+                        SizedBox(height: 10) ,
+                        TextFormField(
+                          decoration: const InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(1000))),
+                              labelText: "Unit",
+                              hintText:
+                                  'Please provide a unit for the article'),
+                          initialValue: unit,
+                          onChanged: (String? value) {
+                            if (value != null && value.isNotEmpty) {
+                              unit = value;
+                            }
+                          },
+                          autovalidateMode: AutovalidateMode.always,
+                          validator: (String? value) {
+                            return (value == null || value.isEmpty)
+                                ? 'Unit for article must be provided'
+                                : null;
+                          },
+                        ),
+                        SizedBox(height: 10),
+                         TextFormField(
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(1000))),
+                              labelText: "Rebuy amount",
+                              hintText:
+                                  'Please provide the rebuy amount of the article'),
+                          initialValue: rebuyAmount.toString(),
+                          onChanged: (String? value) {
+                            if (value != null && value.isNotEmpty) {
+                              rebuyAmount = double.parse(value);
+                            }
+                          },
+                          autovalidateMode: AutovalidateMode.always,
+                          validator: (String? value) {
+                            return (value == null || value.isEmpty)
+                                ? 'Rebuy amount of for article must be provided'
+                                : null;
+                          },
+                        ),                        
+                                           ],
+                    )
+                  ,
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () {
+                        ref.watch(articleCreation.notifier).state = false;
+                        Navigator.pop(context, 'Cancel');
+                      },
+                      child: const Text('Cancel'),
+                    ),
+                    TextButton(
+                      onPressed: name.isNotEmpty && unit.isNotEmpty ? () async {
+                            Article updated = Article(name: name, currentAmount: currentAmount, dailyUsage: dailyUsage, unit: unit, rebuyAmount: rebuyAmount);
+                            await ArticleDatabase.insertArticle(updated);
+                        ref.watch(articleCreation.notifier).state = false;
+                        ref.watch(articlesChanged.notifier).state = !ref.watch(articlesChanged);
+                        Navigator.pop(context, 'Confirm');
+                      }: null,
+                      child: const Text('Confirm'),
+                    ),
+                  ],
+                )));
     });
   }
 }

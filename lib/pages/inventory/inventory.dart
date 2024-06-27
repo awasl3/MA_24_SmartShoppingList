@@ -26,16 +26,6 @@ class InventoryPage extends ConsumerWidget {
   }
 
   Future<List<Article>> getAllArticles() async {
-    List<Article> articles = await ArticleDatabase.getAllArticles();
-    if (articles.length < 20) {
-      Article a = Article(
-          name: "Milk random_${Random().nextInt(100)}",
-          currentAmount: 3.5,
-          dailyUsage: 0.3,
-          unit: "Liter",
-          rebuyAmount: 1.0);
-      await ArticleDatabase.insertArticle(a);
-    }
     return await ArticleDatabase.getAllArticles();
   }
 }

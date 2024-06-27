@@ -16,9 +16,7 @@ class ArticleRow {
       cells: 
     [
       DataCell(Text(article.name)),
-      DataCell(Text("${article.currentAmount}")),
-      DataCell(Text("${article.dailyUsage}")),
-      DataCell(Text(article.unit)),
+      DataCell(Text("${article.currentAmount } ${article.unit}")),
       DataCell(Text("${article.rebuyAmount}")),
       DataCell(editButtons())
     ]
@@ -37,7 +35,7 @@ class ArticleRow {
      ref.watch(articleToBeEdited.notifier).state = article;
   },
   elevation: 2.0,
-  color: Colors.green,
+  color: Colors.orange.withOpacity(0.8),
   shape: const CircleBorder(),
   child: const Icon(
     Icons.edit,
@@ -49,7 +47,7 @@ MaterialButton(
     ref.watch(articleToBeDeleted.notifier).state = article;
   },
   elevation: 2.0,
-  color: Colors.redAccent,
+  color: Colors.red.withOpacity(0.8),
   shape: const CircleBorder(),
   child: const Icon(
     Icons.delete_forever,
