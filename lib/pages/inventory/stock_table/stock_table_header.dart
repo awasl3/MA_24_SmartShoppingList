@@ -9,16 +9,43 @@ class StockTableHeader extends ConsumerWidget{
   
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Padding(padding: EdgeInsets.symmetric(vertical: 10) ,
-    child: OverflowBar(
-      
-      children: 
-      [Text("Current Stock",style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold)),
-        FloatingActionButton(
-          backgroundColor: Colors.greenAccent,
-          child: Icon( Icons.add),
-          onPressed: (){})
-      ]));
+    bool articleDeletion = ref.watch(articleDeletionMode);
+    return buildHeader(articleDeletion);
   }
+
+  Widget buildHeader(bool articleDeletion) {
+    List<Widget> children = [
+      
+        FloatingActionButton(
+          heroTag: "addButton",
+          backgroundColor: Colors.greenAccent,
+          child: const Icon( Icons.add),
+          onPressed: (){})
+    ];
+    if(articleDeletion) {
+      children.add(
+        FloatingActionButton(
+          heroTag: "deletionButton",
+          backgroundColor: Colors.redAccent,
+          child: const Icon( Icons.delete_forever),
+          onPressed: (){})
+      );
+    }
+    return Padding(padding: const EdgeInsets.symmetric(vertical: 10),
+    child: Column(
+      children: [
+        const Text("Current Stock",style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold)),
+        OverflowBar(
+          alignment: MainAxisAlignment.start,
+          spacing: 5,
+          children: children,
+        )
+      ]
+      
+        
+      ));
+  }
+
+
   
 }
