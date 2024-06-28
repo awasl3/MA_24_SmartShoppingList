@@ -93,6 +93,7 @@ class ArticleDialog {
                               dailyUsage: dailyUsage,
                               unit: unit,
                               rebuyAmount: rebuyAmount,
+                              lastUsage: Article.resetUsage()
                             );
 
                             if(article == null) {
@@ -100,6 +101,7 @@ class ArticleDialog {
                             }
                             else {
                               if(article!.name == newArticle.name) {
+                                newArticle.lastUsage = article!.lastUsage;
                                  await ArticleDatabase.updateArticle(newArticle);
                               }
                               else {

@@ -1,12 +1,40 @@
+import 'package:flutter/foundation.dart';
+import 'package:path/path.dart';
 import 'package:smart_shopping_list/main.dart';
 import 'package:smart_shopping_list/pages/inventory/stock/article.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:async';
 
 class ArticleDatabase {
+  ArticleDatabase._privateConstructor();
+  static final ArticleDatabase instance = ArticleDatabase._privateConstructor();
+  static Database? _database;
+
+  factory ArticleDatabase() {
+    return instance;
+  }
+
+  Future<Database> get database async {
+    if (_database != null) return _database!;
+    _database = await initDB();
+    return _database!;
+  }
+
+  Future<Database> initDB() async {
+   final Future<Database> database  = openDatabase(
+   join(await getDatabasesPath(), 'article_database.db'),
+   onCreate: (db, version) {
+    return db.execute(
+      'CREATE TABLE articles(name TEXT PRIMARY KEY, currentAmount REAL, dailyUsage REAL, unit TEXT, rebuyAmount REAL, lastUsage TEXT)',
+    );
+  },
+   version: 1,
+  );
+    return database;
+  }
+
   static Future<void> insertArticle(Article article) async {
-    final db = await database;
-    await db.insert(
+    await ArticleDatabase._database!.insert(
       'articles',
       article.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
@@ -14,30 +42,30 @@ class ArticleDatabase {
   }
 
   static Future<List<Article>> getAllArticles() async {
-    final db = await database;
-
-    final List<Map<String, Object?>> articlesMap = await db.query('articles');
+    final List<Map<String, Object?>> articlesMap = await ArticleDatabase._database!.query('articles');
     return [
       for (final {
             'name': name as String,
             'currentAmount': currentAmount as double,
             'dailyUsage': dailyUsage as double,
             'unit': unit as String,
-            'rebuyAmount': rebuyAmount as double
+            'rebuyAmount': rebuyAmount as double,
+            'lastUsage' : lastUsage as String
           } in articlesMap)
         Article(
             name: name,
             currentAmount: currentAmount,
             dailyUsage: dailyUsage,
             unit: unit,
-            rebuyAmount: rebuyAmount),
+            rebuyAmount: rebuyAmount,
+            lastUsage: DateTime.parse(lastUsage)),
     ];
   }
 
   static Future<void> updateArticle(Article article) async {
-    final db = await database;
 
-    await db.update(
+
+    await ArticleDatabase._database!.update(
       'articles',
       article.toMap(),
       where: 'name = ?',
@@ -46,8 +74,8 @@ class ArticleDatabase {
   }
 
   static Future<void> deleteArticle(String name) async {
-    final db = await database;
-    await db.delete(
+   
+    await ArticleDatabase._database!.delete(
       'articles',
       where: 'name = ?',
       whereArgs: [name],
@@ -56,8 +84,7 @@ class ArticleDatabase {
 
 
   static Future<Article?> getArticle(String name) async {
-    final db = await database;
-    List<Map<String, Object?>> result = await db.query(
+    List<Map<String, Object?>> result = await ArticleDatabase._database!.query(
       'articles',
       where: 'name = ?',
       whereArgs: [name] 
@@ -68,8 +95,9 @@ class ArticleDatabase {
             currentAmount: result[0]['currentAmount'] as double,
             dailyUsage: result[0]['dailyUsage'] as double,
             unit: result[0]['unit'] as String,
-            rebuyAmount: result[0]['rebuyAmount'] as double);
-    }else {
+            rebuyAmount: result[0]['rebuyAmount'] as double,
+            lastUsage: DateTime.parse( result[0]['lastUsage'] as String));
+    }else { 
 
     }  
   }

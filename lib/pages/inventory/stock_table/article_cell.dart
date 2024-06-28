@@ -65,7 +65,7 @@ class ArticleCell extends ConsumerWidget {
                     : null,
               ),
                Text(
-                "Daily usgae: ${article.currentAmount} ${article.unit}",
+                "Daily usgae: ${article.dailyUsage} ${article.unit}",
                 style: selectedArticles.contains(article)
                     ? const TextStyle(decoration: TextDecoration.lineThrough)
                     : null,
