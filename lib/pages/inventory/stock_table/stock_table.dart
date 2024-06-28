@@ -26,7 +26,6 @@ class StockTable extends ConsumerWidget {
         itemBuilder: (context, index) => 
         ArticleCell(
               article: articles[index],
-              index: index,
             ),
         separatorBuilder: (context, index) => const Divider(
               color: Colors.transparent,

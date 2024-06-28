@@ -6,19 +6,19 @@ import 'package:smart_shopping_list/util/routing/provider/providers.dart';
 
 class ArticleCell extends ConsumerWidget {
   final Article article;
-  final int index;
-  const ArticleCell({super.key, required this.article, required this.index});
+
+  const ArticleCell({super.key, required this.article});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    List<int> selectedArticles = ref.watch(articleDeletionSelection);
+    List<Article> selectedArticles = ref.watch(articleDeletionSelection);
     bool deletionMode = ref.watch(articleDeletionMode);
     return GestureDetector(
         onTap: (){
           if(deletionMode) {
-            if(selectedArticles.contains(index)) {
+            if(selectedArticles.contains(article)) {
               ref.read(articleDeletionSelection.notifier).update((state) {
-                return state.where((i) => i != index).toList();
+                return state.where((i) => i != article).toList();
               });
               print(ref.watch(articleDeletionSelection));
               if(ref.watch(articleDeletionSelection).isEmpty) {
@@ -27,7 +27,7 @@ class ArticleCell extends ConsumerWidget {
             } 
             else {
               ref.read(articleDeletionSelection.notifier).update((state) {
-                return [...state, index];
+                return [...state, article];
               });
               
               
@@ -36,7 +36,7 @@ class ArticleCell extends ConsumerWidget {
         },
         onLongPress: () {
           ref.read(articleDeletionMode.notifier).state = true;
-          ref.watch(articleDeletionSelection.notifier).state.add(index);
+          ref.watch(articleDeletionSelection.notifier).state.add(article);
         },
         child: Container(
             padding: const EdgeInsets.all(10),
@@ -49,20 +49,20 @@ class ArticleCell extends ConsumerWidget {
               Text(article.name,
                   style: TextStyle(
                       fontSize: 30,
-                      decoration: selectedArticles.contains(index)
+                      decoration: selectedArticles.contains(article)
                           ? TextDecoration.lineThrough
                           : null)),
               Text(
                 "${article.currentAmount} ${article.unit}",
-                style: selectedArticles.contains(index)
+                style: selectedArticles.contains(article)
                     ? const TextStyle(decoration: TextDecoration.lineThrough)
                     : null,
               ),
             ])));
   }
 
-  Color getColor(List<int> selectedArticles) {
-    if (selectedArticles.contains(index)) {
+  Color getColor(List<Article> selectedArticles) {
+    if (selectedArticles.contains(article)) {
       return Colors.red;
     }
     if (article.currentAmount >= 4 * article.dailyUsage) {

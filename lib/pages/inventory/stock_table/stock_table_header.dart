@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path/path.dart';
+import 'package:smart_shopping_list/pages/inventory/stock/article.dart';
+import 'package:smart_shopping_list/pages/inventory/stock/article_database.dart';
 import 'package:smart_shopping_list/util/routing/provider/providers.dart';
 
 class StockTableHeader extends ConsumerWidget{
@@ -10,10 +13,10 @@ class StockTableHeader extends ConsumerWidget{
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     bool articleDeletion = ref.watch(articleDeletionMode);
-    return buildHeader(articleDeletion);
+    return buildHeader(articleDeletion,ref,context);
   }
 
-  Widget buildHeader(bool articleDeletion) {
+  Widget buildHeader(bool articleDeletion,WidgetRef ref, BuildContext context) {
     List<Widget> children = [
       
         FloatingActionButton(
@@ -28,7 +31,9 @@ class StockTableHeader extends ConsumerWidget{
           heroTag: "deletionButton",
           backgroundColor: Colors.redAccent,
           child: const Icon( Icons.delete_forever),
-          onPressed: (){})
+          onPressed: (){
+            deleteSelectedArticles(ref,context);
+          })
       );
     }
     return Padding(padding: const EdgeInsets.symmetric(vertical: 10),
@@ -44,6 +49,43 @@ class StockTableHeader extends ConsumerWidget{
       
         
       ));
+  }
+  
+  void deleteSelectedArticles(WidgetRef ref, BuildContext context) async {
+    await showDialog(context: context
+
+    , builder: (context) =>
+      AlertDialog(
+        title: const Text("Article deletion"),
+         content: const Text(
+                      'Are you sure, you want to deleted the selected articles from the stock.\n! This action can not be undone !'),
+                      actions: [
+                        ElevatedButton.icon(
+                          icon:  const Icon(Icons.cancel),
+                          label: const Text("Cancel"),
+                          onPressed: () {
+                          Navigator.pop(context, 'Cancel');
+
+                        }),
+                        ElevatedButton.icon(
+                          icon:  const Icon(Icons.check),
+                          label: const Text("Confirm"),
+                          onPressed: () async {
+                           List<Article> articles = ref.read(articleDeletionSelection);
+                          for (Article article in articles) {
+                            await ArticleDatabase.deleteArticle(article.name);
+
+                          }
+                          ref.read(articleDeletionMode.notifier).state = false;
+                          ref.read(articleDeletionSelection.notifier).state = [];
+                          ref.read(articlesChanged.notifier).state = !ref.read(articlesChanged);
+                          Navigator.pop(context, 'Confirm');
+                        })
+                      ],
+
+
+      )
+    );
   }
 
 
