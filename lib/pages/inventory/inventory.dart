@@ -28,7 +28,7 @@ class InventoryPage extends ConsumerWidget {
   }
 
   Future<List<Article>> getAllArticles() async {
-    ArticleDatabase.insertArticle(Article(name: "namedknfanslöfasdlfasöfkjasdföklasdjflsadkjföasdkjföokasdfjasdklöfasklf "+ Random().nextInt(100).toString(), currentAmount: 3.0, dailyUsage: 2.5, unit: "Liter", rebuyAmount: 1.0));
+    //ArticleDatabase.insertArticle(Article(name: "name "+ Random().nextInt(100).toString(), currentAmount: 3.0, dailyUsage: 1, unit: "Liter", rebuyAmount: 1.0));
     return await ArticleDatabase.getAllArticles();
   }
 }

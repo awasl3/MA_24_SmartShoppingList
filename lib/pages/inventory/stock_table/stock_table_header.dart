@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart';
 import 'package:smart_shopping_list/pages/inventory/stock/article.dart';
 import 'package:smart_shopping_list/pages/inventory/stock/article_database.dart';
+import 'package:smart_shopping_list/pages/inventory/stock/article_dialog.dart';
 import 'package:smart_shopping_list/util/routing/provider/providers.dart';
 
 class StockTableHeader extends ConsumerWidget{
@@ -23,7 +24,9 @@ class StockTableHeader extends ConsumerWidget{
           heroTag: "addButton",
           backgroundColor: Colors.greenAccent,
           child: const Icon( Icons.add),
-          onPressed: (){})
+          onPressed: (){
+            ArticleDialog(article: null, context: context,ref: ref).showArticleDialog();
+          })
     ];
     if(articleDeletion) {
       children.add(
@@ -56,7 +59,7 @@ class StockTableHeader extends ConsumerWidget{
 
     , builder: (context) =>
       AlertDialog(
-        title: const Text("Article deletion"),
+        title: const Text("Delete Articles"),
          content: const Text(
                       'Are you sure, you want to deleted the selected articles from the stock.\n! This action can not be undone !'),
                       actions: [
