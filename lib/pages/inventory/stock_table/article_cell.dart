@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_shopping_list/pages/inventory/stock/article.dart';
+import 'package:smart_shopping_list/pages/inventory/stock/article_dialog.dart';
 import 'package:smart_shopping_list/util/routing/provider/providers.dart';
 
 class ArticleCell extends ConsumerWidget {
@@ -32,6 +33,9 @@ class ArticleCell extends ConsumerWidget {
               
               
             }
+          }
+          else {
+            ArticleDialog(article: article,context: context,ref: ref).showArticleDialog();
           }
         },
         onLongPress: () {
