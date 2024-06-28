@@ -15,20 +15,23 @@ class StockTable extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    articles.sort((a, b) => (a.currentAmount-a.dailyUsage).compareTo((b.currentAmount-b.dailyUsage)));
+    articles.sort((a, b) => (a.currentAmount / a.dailyUsage).compareTo((b.currentAmount / b.dailyUsage)));
     return FractionallySizedBox(
       widthFactor: 0.9,
-    child: ListView.separated(
-        itemCount: articles.length+1,
+    child: Column(children: [
+    StockTableHeader(),
+    
+    Expanded( child:ListView.separated(
+        itemCount: articles.length,
         itemBuilder: (context, index) => 
-        index == 0 ? StockTableHeader():
         ArticleCell(
-              article: articles[index-1],
+              article: articles[index],
             ),
         separatorBuilder: (context, index) => const Divider(
               color: Colors.transparent,
               thickness: 1,
-            )));
+            )))
+            ]));
   }
 
   void buildDeletionDialog(BuildContext context, WidgetRef ref) {

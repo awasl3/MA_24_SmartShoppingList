@@ -9,17 +9,20 @@ class ArticleCell extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Container(
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(border: Border.all(),color: getColor() , borderRadius: BorderRadius.all(Radius.circular(30))),
+    return GestureDetector(
+          onTap: () => print("${article.name} tapped"),
+          onLongPress: () => print("${article.name} pressed"),
+        child:  Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(border: Border.all(),color: getColor() , borderRadius: const BorderRadius.all(Radius.circular(30))),
       child: 
     Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Text(article.name,style: TextStyle(fontSize: 30)),
-        Text("${article.currentAmount} ${article.unit}")
+        Text(article.name,style: const TextStyle(fontSize: 30)),
+        Text("${article.currentAmount} ${article.unit}"),
       ]
-    ));
+    )));
   }
 
 
