@@ -24,7 +24,7 @@ final GoRouter router = GoRouter(routes: <RouteBase>[
         GoRoute(
             name: routes[2],
             path: routes[2],
-            builder: (context, state) => buildScreenPage(const RecipeSearchScreen(), 2))
+            builder: (context, state) => buildScreenPage(RecipeSearchScreen(), 2))
       ]),
 ]);
 

@@ -1,34 +1,36 @@
 import 'package:flutter/material.dart';
-import 'recipe_detail_screen.dart';
 import 'recipe_service.dart';
 import 'recipe_model.dart';
+import 'recipe_detail_screen.dart';
 
 class RecipeSearchScreen extends StatefulWidget {
-  const RecipeSearchScreen({Key? key}) : super(key: key);
-
   @override
   _RecipeSearchScreenState createState() => _RecipeSearchScreenState();
 }
 
 class _RecipeSearchScreenState extends State<RecipeSearchScreen> {
-  final TextEditingController _controller = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
+  final RecipeService _recipeService = RecipeService();
   List<Recipe> _recipes = [];
   bool _isLoading = false;
+  String _errorMessage = '';
 
-  void _searchRecipes(String query) async {
+  void _searchRecipes() async {
     setState(() {
       _isLoading = true;
+      _errorMessage = '';
     });
 
-    RecipeService recipeService = RecipeService();
     try {
-      List<Recipe> recipes = await recipeService.searchRecipes(query);
+      final recipes = await _recipeService.searchRecipes(_searchController.text);
       setState(() {
         _recipes = recipes;
-        _isLoading = false;
       });
     } catch (e) {
-      print('Error searching recipes: $e');
+      setState(() {
+        _errorMessage = 'Error searching recipes: $e';
+      });
+    } finally {
       setState(() {
         _isLoading = false;
       });
@@ -43,35 +45,31 @@ class _RecipeSearchScreenState extends State<RecipeSearchScreen> {
       ),
       body: Column(
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: _controller,
-              decoration: InputDecoration(
-                labelText: 'Search Recipes',
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () {
-                    _searchRecipes(_controller.text);
-                  },
-                ),
+          TextField(
+            controller: _searchController,
+            decoration: InputDecoration(
+              labelText: 'Search for recipes',
+              suffixIcon: IconButton(
+                icon: Icon(Icons.search),
+                onPressed: _searchRecipes,
               ),
             ),
+            onSubmitted: (_) => _searchRecipes(),
           ),
-          _isLoading
-              ? Center(child: CircularProgressIndicator())
-              : Expanded(
-                  child: ListView.builder(
-                    itemCount: _recipes.length,
-                    itemBuilder: (context, index) {
-                      Recipe recipe = _recipes[index];
-                      return ListTile(
-                        title: Text(recipe.title),
-                        //subtitle: Text('Ready in ${recipe.readyInMinutes} minutes'),
-                        leading: recipe.imageUrl.isNotEmpty
-                            ? Image.network(recipe.imageUrl)
-                            : null,
-                        onTap: () async {
+          if (_isLoading) CircularProgressIndicator(),
+          if (_errorMessage.isNotEmpty)
+            Text(
+              _errorMessage,
+              style: TextStyle(color: Colors.red),
+            ),
+          if (_recipes.isNotEmpty)
+            Expanded(
+              child: ListView.builder(
+                itemCount: _recipes.length,
+                itemBuilder: (context, index) {
+                  final recipe = _recipes[index];
+                  return GestureDetector(
+                    onTap: () async {
                           RecipeService recipeService = RecipeService();
                           try {
                             Recipe detailedRecipe = await recipeService.getRecipeDetails(recipe.id);
@@ -87,10 +85,31 @@ class _RecipeSearchScreenState extends State<RecipeSearchScreen> {
                             print('Error fetching recipe details: $e');
                           }
                         },
-                      );
-                    },
-                  ),
-                ),
+                    child: Card(
+                      margin: EdgeInsets.symmetric(vertical: 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          recipe.imageUrl.isNotEmpty
+                              ? Image.network(recipe.imageUrl, height: 200, fit: BoxFit.cover)
+                              : SizedBox(
+                                  height: 200,
+                                  child: Center(child: Text('No image available')),
+                                ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              recipe.title,
+                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
         ],
       ),
     );
