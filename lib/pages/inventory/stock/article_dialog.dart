@@ -18,7 +18,7 @@ class ArticleDialog {
     final unitController = TextEditingController();
     final rebuyAmountController = TextEditingController();
 
-    if(article != null) {
+    if (article != null) {
       nameController.text = article!.name;
       currentAmountController.text = article!.currentAmount.toString();
       dailyUsageController.text = article!.dailyUsage.toString();
@@ -95,20 +95,18 @@ class ArticleDialog {
                               rebuyAmount: rebuyAmount,
                             );
 
-                            if(article == null) {
-                               await ArticleDatabase.insertArticle(newArticle);
-                            }
-                            else {
-                              if(article!.name == newArticle.name) {
-                                 await ArticleDatabase.updateArticle(newArticle);
-                              }
-                              else {
-                                await ArticleDatabase.deleteArticle(article!.name);
+                            if (article == null) {
+                              await ArticleDatabase.insertArticle(newArticle);
+                            } else {
+                              if (article!.name == newArticle.name) {
+                                await ArticleDatabase.updateArticle(newArticle);
+                              } else {
+                                await ArticleDatabase.deleteArticle(
+                                    article!.name);
                                 await ArticleDatabase.insertArticle(newArticle);
                               }
-                             
                             }
-                           
+
                             ref.read(articlesChanged.notifier).state =
                                 !ref.read(articlesChanged);
                             Navigator.pop(context, 'Confirm');

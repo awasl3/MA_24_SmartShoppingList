@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_shopping_list/pages/inventory/stock/article.dart';
 import 'package:smart_shopping_list/pages/inventory/stock/article_dialog.dart';
@@ -15,27 +14,24 @@ class ArticleCell extends ConsumerWidget {
     List<Article> selectedArticles = ref.watch(articleDeletionSelection);
     bool deletionMode = ref.watch(articleDeletionMode);
     return GestureDetector(
-        onTap: (){
-          if(deletionMode) {
-            if(selectedArticles.contains(article)) {
+        onTap: () {
+          if (deletionMode) {
+            if (selectedArticles.contains(article)) {
               ref.read(articleDeletionSelection.notifier).update((state) {
                 return state.where((i) => i != article).toList();
               });
               print(ref.watch(articleDeletionSelection));
-              if(ref.watch(articleDeletionSelection).isEmpty) {
+              if (ref.watch(articleDeletionSelection).isEmpty) {
                 ref.read(articleDeletionMode.notifier).state = false;
               }
-            } 
-            else {
+            } else {
               ref.read(articleDeletionSelection.notifier).update((state) {
                 return [...state, article];
               });
-              
-              
             }
-          }
-          else {
-            ArticleDialog(article: article,context: context,ref: ref).showArticleDialog();
+          } else {
+            ArticleDialog(article: article, context: context, ref: ref)
+                .showArticleDialog();
           }
         },
         onLongPress: () {
@@ -56,24 +52,18 @@ class ArticleCell extends ConsumerWidget {
                       decoration: selectedArticles.contains(article)
                           ? TextDecoration.lineThrough
                           : null)),
-                         
-                              
-                              Text(
+              Text(
                 " Current amount: ${article.currentAmount} ${article.unit}",
                 style: selectedArticles.contains(article)
                     ? const TextStyle(decoration: TextDecoration.lineThrough)
                     : null,
               ),
-               Text(
+              Text(
                 "Daily usgae: ${article.currentAmount} ${article.unit}",
                 style: selectedArticles.contains(article)
                     ? const TextStyle(decoration: TextDecoration.lineThrough)
                     : null,
               ),
-              
-                            
-                          
-              
             ])));
   }
 

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_shopping_list/pages/inventory/stock/article.dart';
@@ -11,11 +9,11 @@ class InventoryPage extends ConsumerWidget {
   const InventoryPage({super.key});
 
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(articlesChanged);
-    return  Center(
-      heightFactor: 1,
-      child:FutureBuilder<List<Article>>(
+    return Center(
+        heightFactor: 1,
+        child: FutureBuilder<List<Article>>(
             future: getAllArticles(),
             builder: (ctx, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {

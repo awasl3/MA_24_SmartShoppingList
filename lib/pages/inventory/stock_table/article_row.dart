@@ -2,24 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_shopping_list/pages/inventory/stock/article.dart';
-import 'package:smart_shopping_list/util/routing/provider/providers.dart';
 
-class ArticleRow extends ConsumerWidget{
+class ArticleRow extends ConsumerWidget {
   final Article article;
   const ArticleRow({super.key, required this.article});
 
-  
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-   return Text(article.name);
+    return Text(article.name);
   }
-
-
 
   //   DataRow generate() {
 //     return DataRow(
 //       color: index.isEven ? MaterialStatePropertyAll(Colors.grey.withOpacity(0.3)): const MaterialStatePropertyAll(null),
-//       cells: 
+//       cells:
 //     [
 //       DataCell(Text(article.name)),
 //       DataCell(Text("${article.currentAmount } ${article.unit}")),
@@ -28,8 +24,6 @@ class ArticleRow extends ConsumerWidget{
 //     ]
 //     );
 //   }
-
-
 
 //   Widget editButtons() {
 //     return  OverflowBar(
@@ -61,10 +55,6 @@ class ArticleRow extends ConsumerWidget{
 // )
 //       ],
 //     );
-    
-  
-//   }
-  
 
-  
+//   }
 }

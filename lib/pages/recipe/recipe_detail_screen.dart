@@ -7,7 +7,7 @@ enum IngredientStatus { available, notEnough, missing }
 class RecipeDetailScreen extends StatelessWidget {
   final Recipe recipe;
 
-  const RecipeDetailScreen({Key? key, required this.recipe}) : super(key: key);
+  const RecipeDetailScreen({super.key, required this.recipe});
 
   Future<Map<String, IngredientStatus>> _fetchInventoryAndCompare() async {
     Map<String, IngredientStatus> ingredientAvailability = {};
@@ -40,21 +40,25 @@ class RecipeDetailScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             recipe.imageUrl.isNotEmpty
-                ? Image.network(recipe.imageUrl, height: 250, width: double.infinity, fit: BoxFit.cover)
-                : SizedBox(height: 200, child: Center(child: Text('No image available'))),
-            SizedBox(height: 16),
+                ? Image.network(recipe.imageUrl,
+                    height: 250, width: double.infinity, fit: BoxFit.cover)
+                : const SizedBox(
+                    height: 200,
+                    child: Center(child: Text('No image available'))),
+            const SizedBox(height: 16),
             Text(
               'Ready in ${recipe.readyInMinutes} minutes',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 16),
-            Text('Ingredients', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-            SizedBox(height: 8),
+            const SizedBox(height: 16),
+            const Text('Ingredients',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
             FutureBuilder<Map<String, IngredientStatus>>(
               future: _fetchInventoryAndCompare(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
@@ -74,11 +78,13 @@ class RecipeDetailScreen extends StatelessWidget {
                               : Colors.red;
 
                       return Card(
-                        margin: EdgeInsets.symmetric(vertical: 4),
+                        margin: const EdgeInsets.symmetric(vertical: 4),
                         child: ListTile(
                           title: Text(ingredient.name),
-                          subtitle: Text('${ingredient.amount} ${ingredient.unit}'),
-                          trailing: Text(statusText, style: TextStyle(color: statusColor)),
+                          subtitle:
+                              Text('${ingredient.amount} ${ingredient.unit}'),
+                          trailing: Text(statusText,
+                              style: TextStyle(color: statusColor)),
                         ),
                       );
                     }).toList(),
@@ -86,11 +92,12 @@ class RecipeDetailScreen extends StatelessWidget {
                 }
               },
             ),
-            SizedBox(height: 16),
-            Text('Instructions', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-            SizedBox(height: 8),
+            const SizedBox(height: 16),
+            const Text('Instructions',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
             Card(
-              margin: EdgeInsets.symmetric(vertical: 4),
+              margin: const EdgeInsets.symmetric(vertical: 4),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Text(recipe.instructions),

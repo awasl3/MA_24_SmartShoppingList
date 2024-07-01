@@ -54,26 +54,18 @@ class ArticleDatabase {
     );
   }
 
-
   static Future<Article?> getArticle(String name) async {
     final db = await database;
-    List<Map<String, Object?>> result = await db.query(
-      'articles',
-      where: 'name = ?',
-      whereArgs: [name] 
-    );
-    if(result.length == 1) {
-      return  Article(
-            name: result[0]['name'] as String,
-            currentAmount: result[0]['currentAmount'] as double,
-            dailyUsage: result[0]['dailyUsage'] as double,
-            unit: result[0]['unit'] as String,
-            rebuyAmount: result[0]['rebuyAmount'] as double);
-    }else {
-
-    }  
+    List<Map<String, Object?>> result =
+        await db.query('articles', where: 'name = ?', whereArgs: [name]);
+    if (result.length == 1) {
+      return Article(
+          name: result[0]['name'] as String,
+          currentAmount: result[0]['currentAmount'] as double,
+          dailyUsage: result[0]['dailyUsage'] as double,
+          unit: result[0]['unit'] as String,
+          rebuyAmount: result[0]['rebuyAmount'] as double);
+    } else {}
+    return null;
   }
 }
-
-
-
