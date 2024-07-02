@@ -1,14 +1,16 @@
 import 'package:flutter/foundation.dart';
+import 'package:get_it/get_it.dart';
 import 'package:path/path.dart';
 import 'package:smart_shopping_list/main.dart';
 import 'package:smart_shopping_list/pages/inventory/stock/article.dart';
-import 'package:smart_shopping_list/util/database/database_instance.dart';
+import 'package:smart_shopping_list/util/database/database_instance_impl.dart';
+import 'package:smart_shopping_list/util/database/databse_instance.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:async';
 
 class ArticleDatabase {
   static Future<void> insertArticle(Article article) async {
-    final database = await DatabaseInstance().database;
+    final database = await GetIt.I.get<DatabaseInstance>().getDatabase();
     await database.insert(
       'articles',
       article.toMap(),
@@ -17,7 +19,7 @@ class ArticleDatabase {
   }
 
   static Future<List<Article>> getAllArticles() async {
-    final database = await DatabaseInstance().database;
+    final database = await GetIt.I.get<DatabaseInstance>().getDatabase();
     final List<Map<String, Object?>> articlesMap =
         await database.query('articles');
     return [
@@ -40,7 +42,7 @@ class ArticleDatabase {
   }
 
   static Future<void> updateArticle(Article article) async {
-    final database = await DatabaseInstance().database;
+    final database = await GetIt.I.get<DatabaseInstance>().getDatabase();
 
     await database.update(
       'articles',
@@ -51,7 +53,7 @@ class ArticleDatabase {
   }
 
   static Future<void> deleteArticle(String name) async {
-    final database = await DatabaseInstance().database;
+    final database = await GetIt.I.get<DatabaseInstance>().getDatabase();
     await database.delete(
       'articles',
       where: 'name = ?',
@@ -60,7 +62,7 @@ class ArticleDatabase {
   }
 
   static Future<Article?> getArticle(String name) async {
-    final database = await DatabaseInstance().database;
+    final database = await GetIt.I.get<DatabaseInstance>().getDatabase();
     List<Map<String, Object?>> result =
         await database.query('articles', where: 'name = ?', whereArgs: [name]);
     if (result.length == 1) {

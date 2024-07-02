@@ -42,6 +42,7 @@ dependencies:
   path: ^1.9.0
   units_converter: ^3.0.0
   http: ^1.2.1
+  get_it: ^7.7.0
 
 dev_dependencies:
   flutter_test:
@@ -54,6 +55,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^3.0.0
   test: ^1.25.2
+  sqflite_common_ffi: ^2.3.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

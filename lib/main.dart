@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get_it/get_it.dart';
 import 'package:path/path.dart';
 import 'package:smart_shopping_list/pages/inventory/stock/article_database.dart';
 import 'package:smart_shopping_list/pages/inventory/stock/stock.dart';
-import 'package:smart_shopping_list/util/database/database_instance.dart';
+import 'package:smart_shopping_list/util/database/database_instance_impl.dart';
+import 'package:smart_shopping_list/util/database/databse_instance.dart';
 import 'package:smart_shopping_list/util/routing/router.dart';
 import 'package:sqflite/sqflite.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await DatabaseInstance().database;
+  GetIt.I.registerSingleton<DatabaseInstance>(DatabaseInstanceImpl());
   await Stock.subtractDailyUsage();
   runApp(const MyApp());
 }

@@ -1,19 +1,27 @@
 import 'package:path/path.dart';
+import 'package:smart_shopping_list/util/database/databse_instance.dart';
 import 'package:sqflite/sqflite.dart';
 
-class DatabaseInstance {
-  DatabaseInstance._privateConstructor();
-  static final DatabaseInstance _instance =
-      DatabaseInstance._privateConstructor();
+class DatabaseInstanceImpl extends DatabaseInstance {
+  // DatabaseInstance._privateConstructor();
+  // static final DatabaseInstance _instance =
+  //     DatabaseInstance._privateConstructor();
   static Database? _database;
 
-  factory DatabaseInstance() => _instance;
+  // factory DatabaseInstance() => _instance;
 
-  Future<Database> get database async {
-    if (_database != null) return _database!;
-    _database = await initDB();
-    return _database!;
+  @override
+  Future<Database> getDatabase() async {
+    if(DatabaseInstanceImpl._database != null) return DatabaseInstanceImpl._database!;
+    DatabaseInstanceImpl._database = await initDB();
+    return  DatabaseInstanceImpl._database!;
   }
+
+  // Future<Database> get database async {
+  //   if (_database != null) return _database!;
+  //   _database = await initDB();
+  //   return _database!;
+  // }
 
   Future<Database> initDB() async {
     final Future<Database> database = openDatabase(
@@ -34,4 +42,6 @@ class DatabaseInstance {
     );
     return database;
   }
+  
+  
 }
