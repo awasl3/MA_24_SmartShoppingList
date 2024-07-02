@@ -6,24 +6,32 @@ import 'package:sqflite/sqflite.dart';
 
 late final Future<Database> database;
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-   database = openDatabase(
-   join(await getDatabasesPath(), 'article_database.db'),
-   onCreate: (db, version) {
-    // Run the CREATE TABLE statement on the database.
-    return db.execute(
-      'CREATE TABLE articles(name TEXT PRIMARY KEY, currentAmount REAL, dailyUsage REAL, unit TEXT, rebuyAmount REAL)',
-    );
-  },
-   version: 1,
+
+  database = openDatabase(
+    join(await getDatabasesPath(), 'article_database.db'),
+    onCreate: (db, version) {
+      // Run the CREATE TABLE statement on the database.
+      return db.execute(
+        'CREATE TABLE articles(name TEXT PRIMARY KEY, currentAmount REAL, dailyUsage REAL, unit TEXT, rebuyAmount REAL)',
+      );
+    },
+    onUpgrade: (db, oldVersion, newVersion) {
+      if (oldVersion < 2) {
+        return db.execute(
+            'CREATE TABLE shopping_list(name TEXT PRIMARY KEY, amount REAL, unit TEXT, checked INTEGER DEFAULT 0)');
+      }
+    },
+    version: 2,
   );
+
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ProviderScope(

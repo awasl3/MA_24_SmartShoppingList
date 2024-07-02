@@ -4,6 +4,8 @@ import 'recipe_model.dart';
 import 'recipe_detail_screen.dart';
 
 class RecipeSearchScreen extends StatefulWidget {
+  const RecipeSearchScreen({super.key});
+
   @override
   _RecipeSearchScreenState createState() => _RecipeSearchScreenState();
 }
@@ -22,7 +24,8 @@ class _RecipeSearchScreenState extends State<RecipeSearchScreen> {
     });
 
     try {
-      final recipes = await _recipeService.searchRecipes(_searchController.text);
+      final recipes =
+          await _recipeService.searchRecipes(_searchController.text);
       setState(() {
         _recipes = recipes;
       });
@@ -44,74 +47,81 @@ class _RecipeSearchScreenState extends State<RecipeSearchScreen> {
         title: Text('Recipe Search',style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold)),
         automaticallyImplyLeading: false,
       ),
-      body: Column(
-        children: <Widget>[
-          TextField(
-            controller: _searchController,
-            decoration: InputDecoration(
-              labelText: 'Search for recipes',
-              suffixIcon: IconButton(
-                icon: Icon(Icons.search),
-                onPressed: _searchRecipes,
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: <Widget>[
+            TextField(
+              controller: _searchController,
+              decoration: InputDecoration(
+                labelText: 'Search for recipes',
+                suffixIcon: IconButton(
+                  icon: const Icon(Icons.search),
+                  onPressed: _searchRecipes,
+                ),
               ),
+              onSubmitted: (_) => _searchRecipes(),
             ),
-            onSubmitted: (_) => _searchRecipes(),
-          ),
-          if (_isLoading) CircularProgressIndicator(),
-          if (_errorMessage.isNotEmpty)
-            Text(
-              _errorMessage,
-              style: TextStyle(color: Colors.red),
-            ),
-          if (_recipes.isNotEmpty)
-            Expanded(
-              child: ListView.builder(
-                itemCount: _recipes.length,
-                itemBuilder: (context, index) {
-                  final recipe = _recipes[index];
-                  return GestureDetector(
-                    onTap: () async {
-                          RecipeService recipeService = RecipeService();
-                          try {
-                            Recipe detailedRecipe = await recipeService.getRecipeDetails(recipe.id);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => RecipeDetailScreen(
-                                  recipe: detailedRecipe,
-                                ),
+            if (_isLoading) const CircularProgressIndicator(),
+            if (_errorMessage.isNotEmpty)
+              Text(
+                _errorMessage,
+                style: const TextStyle(color: Colors.red),
+              ),
+            if (_recipes.isNotEmpty)
+              Expanded(
+                child: ListView.builder(
+                  itemCount: _recipes.length,
+                  itemBuilder: (context, index) {
+                    final recipe = _recipes[index];
+                    return GestureDetector(
+                      onTap: () async {
+                        RecipeService recipeService = RecipeService();
+                        try {
+                          Recipe detailedRecipe =
+                              await recipeService.getRecipeDetails(recipe.id);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RecipeDetailScreen(
+                                recipe: detailedRecipe,
                               ),
-                            );
-                          } catch (e) {
-                            print('Error fetching recipe details: $e');
-                          }
-                        },
-                    child: Card(
-                      margin: EdgeInsets.symmetric(vertical: 8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          recipe.imageUrl.isNotEmpty
-                              ? Image.network(recipe.imageUrl, height: 200, fit: BoxFit.cover)
-                              : SizedBox(
-                                  height: 200,
-                                  child: Center(child: Text('No image available')),
-                                ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              recipe.title,
-                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                             ),
-                          ),
-                        ],
+                          );
+                        } catch (e) {
+                          print('Error fetching recipe details: $e');
+                        }
+                      },
+                      child: Card(
+                        margin: const EdgeInsets.symmetric(vertical: 8),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            recipe.imageUrl.isNotEmpty
+                                ? Image.network(recipe.imageUrl,
+                                    height: 200, fit: BoxFit.cover)
+                                : const SizedBox(
+                                    height: 200,
+                                    child: Center(
+                                        child: Text('No image available')),
+                                  ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                recipe.title,
+                                style: const TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }
