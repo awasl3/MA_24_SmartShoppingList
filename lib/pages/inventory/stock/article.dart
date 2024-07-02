@@ -6,11 +6,17 @@ class Article {
   final double rebuyAmount;
   DateTime lastUsage;
 
-  Article({required this.name, required this.currentAmount, required this.dailyUsage, required this.unit, required this.rebuyAmount, required this.lastUsage});
+  Article(
+      {required this.name,
+      required this.currentAmount,
+      required this.dailyUsage,
+      required this.unit,
+      required this.rebuyAmount,
+      required this.lastUsage});
 
   static DateTime resetUsage() {
     final now = DateTime.now();
-    return DateTime(now.year,now.month,now.day);
+    return DateTime(now.year, now.month, now.day);
   }
 
   Map<String, Object?> toMap() {
@@ -18,10 +24,10 @@ class Article {
       'name': name,
       'currentAmount': currentAmount,
       'dailyUsage': dailyUsage,
-      'unit':unit,
-      'rebuyAmount':rebuyAmount,
-      'lastUsage':lastUsage.toIso8601String()
-          };
+      'unit': unit,
+      'rebuyAmount': rebuyAmount,
+      'lastUsage': lastUsage.toIso8601String()
+    };
   }
 
   @override

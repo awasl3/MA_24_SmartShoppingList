@@ -15,7 +15,7 @@ class ItemDatabase {
   }
 
   static Future<List<Item>> getAllItems() async {
-     final db = await DatabaseInstance().database;
+    final db = await DatabaseInstance().database;
 
     final List<Map<String, Object?>> itemsMap = await db.query('shopping_list');
     return [
@@ -30,7 +30,7 @@ class ItemDatabase {
   }
 
   static Future<void> updateItem(Item item) async {
-     final db = await DatabaseInstance().database;
+    final db = await DatabaseInstance().database;
 
     await db.update(
       'shopping_list',
@@ -50,7 +50,7 @@ class ItemDatabase {
   }
 
   static Future<Item?> getItem(String name) async {
-     final db = await DatabaseInstance().database;
+    final db = await DatabaseInstance().database;
     List<Map<String, Object?>> result =
         await db.query('shopping_list', where: 'name = ?', whereArgs: [name]);
     if (result.isEmpty) {

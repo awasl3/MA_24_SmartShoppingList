@@ -71,24 +71,27 @@ class RecipeDetailScreen extends ConsumerWidget {
                     return Column(
                       children: [
                         ...recipe.ingredients.map((ingredient) {
-                          final status = ingredientAvailability[ingredient.name];
-                          final statusText = status == IngredientStatus.available
-                              ? 'Available'
-                              : status == IngredientStatus.notEnough
-                                  ? 'Not Enough'
-                                  : 'Missing';
-                          final statusColor = status == IngredientStatus.available
-                              ? Colors.green
-                              : status == IngredientStatus.notEnough
-                                  ? Colors.orange
-                                  : Colors.red;
+                          final status =
+                              ingredientAvailability[ingredient.name];
+                          final statusText =
+                              status == IngredientStatus.available
+                                  ? 'Available'
+                                  : status == IngredientStatus.notEnough
+                                      ? 'Not Enough'
+                                      : 'Missing';
+                          final statusColor =
+                              status == IngredientStatus.available
+                                  ? Colors.green
+                                  : status == IngredientStatus.notEnough
+                                      ? Colors.orange
+                                      : Colors.red;
 
                           return Card(
                             margin: const EdgeInsets.symmetric(vertical: 4),
                             child: ListTile(
                               title: Text(ingredient.name),
-                              subtitle:
-                                  Text('${ingredient.amount} ${ingredient.unit}'),
+                              subtitle: Text(
+                                  '${ingredient.amount} ${ingredient.unit}'),
                               trailing: Text(statusText,
                                   style: TextStyle(color: statusColor)),
                             ),
@@ -99,29 +102,35 @@ class RecipeDetailScreen extends ConsumerWidget {
                           onPressed: () {
                             final missingOrNotEnough = recipe.ingredients
                                 .where((ingredient) =>
-                                    ingredientAvailability[ingredient.name] != IngredientStatus.available)
+                                    ingredientAvailability[ingredient.name] !=
+                                    IngredientStatus.available)
                                 .toList();
 
                             if (missingOrNotEnough.isNotEmpty) {
                               for (var ingredient in missingOrNotEnough) {
-                                ref.read(shoppingListProvider.notifier).addItem(
-                                  Item(
-                                    name: ingredient.name,
-                                    amount: ingredient.amount,
-                                    unit: ingredient.unit,
-                                  )
-                                );
+                                ref
+                                    .read(shoppingListProvider.notifier)
+                                    .addItem(Item(
+                                      name: ingredient.name,
+                                      amount: ingredient.amount,
+                                      unit: ingredient.unit,
+                                    ));
                               }
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Missing items added to shopping list')),
+                                const SnackBar(
+                                    content: Text(
+                                        'Missing items added to shopping list')),
                               );
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('All ingredients are available')),
+                                const SnackBar(
+                                    content:
+                                        Text('All ingredients are available')),
                               );
                             }
                           },
-                          child: const Text('Add missing items to shopping list'),
+                          child:
+                              const Text('Add missing items to shopping list'),
                         ),
                       ],
                     );

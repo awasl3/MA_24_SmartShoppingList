@@ -91,24 +91,22 @@ class ArticleDialog {
                                 double.tryParse(rebuyAmountController.text) ??
                                     0.0;
                             final newArticle = Article(
-                              name: name,
-                              currentAmount: currentAmount,
-                              dailyUsage: dailyUsage,
-                              unit: unit,
-                              rebuyAmount: rebuyAmount,
-                              lastUsage: Article.resetUsage()
-                            );
+                                name: name,
+                                currentAmount: currentAmount,
+                                dailyUsage: dailyUsage,
+                                unit: unit,
+                                rebuyAmount: rebuyAmount,
+                                lastUsage: Article.resetUsage());
 
-                            if(article == null) {
-                               await ArticleDatabase.insertArticle(newArticle);
-                            }
-                            else {
-                              if(article!.name == newArticle.name) {
+                            if (article == null) {
+                              await ArticleDatabase.insertArticle(newArticle);
+                            } else {
+                              if (article!.name == newArticle.name) {
                                 newArticle.lastUsage = article!.lastUsage;
-                                 await ArticleDatabase.updateArticle(newArticle);
-                              }
-                              else {
-                                await ArticleDatabase.deleteArticle(article!.name);
+                                await ArticleDatabase.updateArticle(newArticle);
+                              } else {
+                                await ArticleDatabase.deleteArticle(
+                                    article!.name);
                                 await ArticleDatabase.insertArticle(newArticle);
                               }
                             }

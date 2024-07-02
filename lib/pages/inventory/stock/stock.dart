@@ -36,11 +36,16 @@ class Stock {
   static Future<void> addIngredients(List<String> ingredients) async {
     for (String ingredient in ingredients) {
       Article? article = await ArticleDatabase.getArticle(ingredient);
-      if(article != null) {
-       await ArticleDatabase.updateArticle(article);
-      }
-      else {
-        Article newArticle = Article(name: ingredient, currentAmount: 0, dailyUsage: 0, unit: "", rebuyAmount: 0, lastUsage: Article.resetUsage());
+      if (article != null) {
+        await ArticleDatabase.updateArticle(article);
+      } else {
+        Article newArticle = Article(
+            name: ingredient,
+            currentAmount: 0,
+            dailyUsage: 0,
+            unit: "",
+            rebuyAmount: 0,
+            lastUsage: Article.resetUsage());
         await ArticleDatabase.insertArticle(newArticle);
       }
     }
@@ -49,23 +54,35 @@ class Stock {
   static Future<void> subtractDailyUsage() async {
     List<Article> articles = await ArticleDatabase.getAllArticles();
     for (Article article in articles) {
-        double newAmount = article.currentAmount - (DateTime.now().difference(article.lastUsage).inDays) * article.dailyUsage;
-        Article updatedArticle= Article(name: article.name, currentAmount: newAmount, dailyUsage: article.dailyUsage, unit: article.unit, rebuyAmount: article.rebuyAmount, lastUsage:Article.resetUsage() );
-        ArticleDatabase.updateArticle(updatedArticle);
-      
+      double newAmount = article.currentAmount -
+          (DateTime.now().difference(article.lastUsage).inDays) *
+              article.dailyUsage;
+      Article updatedArticle = Article(
+          name: article.name,
+          currentAmount: newAmount,
+          dailyUsage: article.dailyUsage,
+          unit: article.unit,
+          rebuyAmount: article.rebuyAmount,
+          lastUsage: Article.resetUsage());
+      ArticleDatabase.updateArticle(updatedArticle);
     }
   }
 
   static Future<void> addRebuyAmount(Map<String, int> shoppingCart) async {
     shoppingCart.forEach((key, value) async {
       Article? article = await ArticleDatabase.getArticle(key);
-        if(article != null) {
-          double newAmount = article.currentAmount + value * article.rebuyAmount;
-          Article updatedArticle= Article(name: article.name, currentAmount: newAmount, dailyUsage: article.dailyUsage, unit: article.unit, rebuyAmount: article.rebuyAmount, lastUsage: article.lastUsage);
-          ArticleDatabase.updateArticle(updatedArticle);
-          await ArticleDatabase.updateArticle(article);
-        }
+      if (article != null) {
+        double newAmount = article.currentAmount + value * article.rebuyAmount;
+        Article updatedArticle = Article(
+            name: article.name,
+            currentAmount: newAmount,
+            dailyUsage: article.dailyUsage,
+            unit: article.unit,
+            rebuyAmount: article.rebuyAmount,
+            lastUsage: article.lastUsage);
+        ArticleDatabase.updateArticle(updatedArticle);
+        await ArticleDatabase.updateArticle(article);
+      }
     });
   }
 }
-

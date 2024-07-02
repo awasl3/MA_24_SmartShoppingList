@@ -51,6 +51,4 @@ class StockTable extends ConsumerWidget {
                       )))
         ]));
   }
-
-
 }

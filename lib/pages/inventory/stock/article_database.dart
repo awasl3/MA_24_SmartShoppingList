@@ -7,7 +7,6 @@ import 'package:sqflite/sqflite.dart';
 import 'dart:async';
 
 class ArticleDatabase {
-  
   static Future<void> insertArticle(Article article) async {
     final database = await DatabaseInstance().database;
     await database.insert(
@@ -19,7 +18,8 @@ class ArticleDatabase {
 
   static Future<List<Article>> getAllArticles() async {
     final database = await DatabaseInstance().database;
-    final List<Map<String, Object?>> articlesMap = await database.query('articles');
+    final List<Map<String, Object?>> articlesMap =
+        await database.query('articles');
     return [
       for (final {
             'name': name as String,
@@ -27,7 +27,7 @@ class ArticleDatabase {
             'dailyUsage': dailyUsage as double,
             'unit': unit as String,
             'rebuyAmount': rebuyAmount as double,
-            'lastUsage' : lastUsage as String
+            'lastUsage': lastUsage as String
           } in articlesMap)
         Article(
             name: name,
@@ -51,7 +51,7 @@ class ArticleDatabase {
   }
 
   static Future<void> deleteArticle(String name) async {
-   final database = await DatabaseInstance().database;
+    final database = await DatabaseInstance().database;
     await database.delete(
       'articles',
       where: 'name = ?',
@@ -61,21 +61,16 @@ class ArticleDatabase {
 
   static Future<Article?> getArticle(String name) async {
     final database = await DatabaseInstance().database;
-    List<Map<String, Object?>> result = await database.query(
-      'articles',
-      where: 'name = ?',
-      whereArgs: [name] 
-    );
-    if(result.length == 1) {
-      return  Article(
-            name: result[0]['name'] as String,
-            currentAmount: result[0]['currentAmount'] as double,
-            dailyUsage: result[0]['dailyUsage'] as double,
-            unit: result[0]['unit'] as String,
-            rebuyAmount: result[0]['rebuyAmount'] as double,
-            lastUsage: DateTime.parse( result[0]['lastUsage'] as String));
-    }else { 
-
-    }  
+    List<Map<String, Object?>> result =
+        await database.query('articles', where: 'name = ?', whereArgs: [name]);
+    if (result.length == 1) {
+      return Article(
+          name: result[0]['name'] as String,
+          currentAmount: result[0]['currentAmount'] as double,
+          dailyUsage: result[0]['dailyUsage'] as double,
+          unit: result[0]['unit'] as String,
+          rebuyAmount: result[0]['rebuyAmount'] as double,
+          lastUsage: DateTime.parse(result[0]['lastUsage'] as String));
+    } else {}
   }
 }
