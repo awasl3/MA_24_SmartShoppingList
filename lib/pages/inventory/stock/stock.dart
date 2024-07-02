@@ -53,7 +53,6 @@ class Stock {
         double newAmount = article.currentAmount - (DateTime.now().difference(article.lastUsage).inDays) * article.dailyUsage;
         Article updatedArticle= Article(name: article.name, currentAmount: newAmount, dailyUsage: article.dailyUsage, unit: article.unit, rebuyAmount: article.rebuyAmount, lastUsage:Article.resetUsage() );
         ArticleDatabase.updateArticle(updatedArticle);
-        1.convertFromTo(MASS.grams, VOLUME.cups);
       
     }
   }
