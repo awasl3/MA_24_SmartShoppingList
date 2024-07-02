@@ -73,6 +73,8 @@ class ArticleDatabase {
           unit: result[0]['unit'] as String,
           rebuyAmount: result[0]['rebuyAmount'] as double,
           lastUsage: DateTime.parse(result[0]['lastUsage'] as String));
-    } else {}
+    } else {
+      return null;
+    }
   }
 }

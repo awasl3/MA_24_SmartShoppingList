@@ -32,6 +32,6 @@ class Article {
 
   @override
   String toString() {
-    return 'Article{name: $name, currentAmount: $currentAmount, dailyUsage: $dailyUsage, unit: $unit, rebuyAmount: $rebuyAmount, lastUsgage: $lastUsage}';
+    return 'Article{name: $name, currentAmount: $currentAmount, dailyUsage: $dailyUsage, unit: $unit, rebuyAmount: $rebuyAmount, lastUsage: $lastUsage}';
   }
 }

@@ -25,7 +25,7 @@ void main() {
   test('Article should covert to string', () {
     final string = article.toString();
     expect(string,
-        'Article{name: Testarticle, currentAmount: 3.14, dailyUsage: 1.59, unit: liter, rebuyAmount: 265.359, lastUsgage: 2024-01-07 17:30:00.000}');
+        'Article{name: Testarticle, currentAmount: 3.14, dailyUsage: 1.59, unit: liter, rebuyAmount: 265.359, lastUsage: 2024-01-07 17:30:00.000}');
   });
 
   test('Article reset day of last usage', () {
