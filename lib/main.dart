@@ -17,7 +17,13 @@ void main() async {
         'CREATE TABLE articles(name TEXT PRIMARY KEY, currentAmount REAL, dailyUsage REAL, unit TEXT, rebuyAmount REAL)',
       );
     },
-    version: 1,
+    onUpgrade: (db, oldVersion, newVersion) {
+      if (oldVersion < 2) {
+        return db.execute(
+            'CREATE TABLE shopping_list(name TEXT PRIMARY KEY, amount REAL, unit TEXT, checked INTEGER DEFAULT 0)');
+      }
+    },
+    version: 2,
   );
 
   runApp(const MyApp());

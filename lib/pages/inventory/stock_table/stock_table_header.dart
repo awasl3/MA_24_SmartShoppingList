@@ -37,15 +37,11 @@ class StockTableHeader extends ConsumerWidget {
     }
     return Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
-        child: Column(children: [
-          const Text("Current Stock",
-              style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold)),
-          OverflowBar(
-            alignment: MainAxisAlignment.start,
-            spacing: 5,
-            children: children,
-          )
-        ]));
+        child: OverflowBar(
+          alignment: MainAxisAlignment.start,
+          spacing: 5,
+          children: children,
+        ));
   }
 
   void deleteSelectedArticles(WidgetRef ref, BuildContext context) async {
