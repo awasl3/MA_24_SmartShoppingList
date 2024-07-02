@@ -4,10 +4,13 @@ import 'package:smart_shopping_list/pages/inventory/stock/article.dart';
 import 'package:smart_shopping_list/pages/inventory/stock/article_database.dart';
 import 'package:smart_shopping_list/util/routing/provider/providers.dart';
 
+import '../../../util/widget/input_field.dart';
+
 class ArticleDialog {
   final BuildContext context;
   final WidgetRef ref;
   final Article? article;
+
   ArticleDialog(
       {required this.article, required this.context, required this.ref});
 
@@ -18,7 +21,7 @@ class ArticleDialog {
     final unitController = TextEditingController();
     final rebuyAmountController = TextEditingController();
 
-    if(article != null) {
+    if (article != null) {
       nameController.text = article!.name;
       currentAmountController.text = article!.currentAmount.toString();
       dailyUsageController.text = article!.dailyUsage.toString();
@@ -108,9 +111,8 @@ class ArticleDialog {
                                 await ArticleDatabase.deleteArticle(article!.name);
                                 await ArticleDatabase.insertArticle(newArticle);
                               }
-                             
                             }
-                           
+
                             ref.read(articlesChanged.notifier).state =
                                 !ref.read(articlesChanged);
                             Navigator.pop(context, 'Confirm');
@@ -120,49 +122,5 @@ class ArticleDialog {
             );
           });
         });
-  }
-
-  Widget buildTextInputField(
-      TextEditingController controller, String label, Function setState) {
-    return TextFormField(
-      controller: controller,
-      keyboardType: TextInputType.name,
-      decoration: InputDecoration(
-        labelText: label,
-        hintText: 'Please provide a ${label.toLowerCase()}',
-        border: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(1000))),
-      ),
-      autovalidateMode: AutovalidateMode.always,
-      validator: (String? value) {
-        return (value == null || value.isEmpty)
-            ? '$label must be provided'
-            : null;
-      },
-      onChanged: (text) => setState(() {}),
-    );
-  }
-
-  Widget buildNumberInputField(
-      TextEditingController controller, String label, Function setState) {
-    return TextFormField(
-      controller: controller,
-      keyboardType: TextInputType.number,
-      decoration: InputDecoration(
-        labelText: label,
-        hintText: 'Please provide a ${label.toLowerCase()}',
-        border: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(1000))),
-      ),
-      autovalidateMode: AutovalidateMode.always,
-      validator: (String? value) {
-        return (value == null || value.isEmpty)
-            ? '$label must be provided'
-            : double.tryParse(value) == null
-                ? '$label must be a number'
-                : null;
-      },
-      onChanged: (text) => setState(() {}),
-    );
   }
 }

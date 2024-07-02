@@ -6,35 +6,35 @@ import 'package:units_converter/units_converter.dart';
 class Stock {
   static Future<bool> isCookable(List<String> ingredients) async {
     for (String ingredient in ingredients) {
-      if(await ArticleDatabase.getArticle(ingredient) == null) {
+      if (await ArticleDatabase.getArticle(ingredient) == null) {
         return false;
       }
     }
     return true;
   }
 
-
-  static Future<List<String>> getMissingIngredients(List<String> ingredients) async {
+  static Future<List<String>> getMissingIngredients(
+      List<String> ingredients) async {
     List<String> articles = [];
     for (String ingredient in ingredients) {
-      if(await ArticleDatabase.getArticle(ingredient) == null) {
-       articles.add(ingredient);
+      if (await ArticleDatabase.getArticle(ingredient) == null) {
+        articles.add(ingredient);
       }
     }
     return articles;
   }
 
   static Future<void> subtractIngredients(List<String> ingredients) async {
-     for (String ingredient in ingredients) {
+    for (String ingredient in ingredients) {
       Article? article = await ArticleDatabase.getArticle(ingredient);
-      if(article != null) {
-       await ArticleDatabase.updateArticle(article);
+      if (article != null) {
+        await ArticleDatabase.updateArticle(article);
       }
     }
   }
 
-   static Future<void> addIngredients(List<String> ingredients) async {
-     for (String ingredient in ingredients) {
+  static Future<void> addIngredients(List<String> ingredients) async {
+    for (String ingredient in ingredients) {
       Article? article = await ArticleDatabase.getArticle(ingredient);
       if(article != null) {
        await ArticleDatabase.updateArticle(article);
@@ -46,7 +46,6 @@ class Stock {
     }
   }
 
-
   static Future<void> subtractDailyUsage() async {
     List<Article> articles = await ArticleDatabase.getAllArticles();
     for (Article article in articles) {
@@ -57,7 +56,7 @@ class Stock {
     }
   }
 
-  static Future<void> addRebuyAmount(Map<String,int> shoppingCart) async {
+  static Future<void> addRebuyAmount(Map<String, int> shoppingCart) async {
     shoppingCart.forEach((key, value) async {
       Article? article = await ArticleDatabase.getArticle(key);
         if(article != null) {
@@ -69,3 +68,4 @@ class Stock {
     });
   }
 }
+

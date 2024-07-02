@@ -1,34 +1,39 @@
 import 'package:flutter/material.dart';
-import 'recipe_detail_screen.dart';
 import 'recipe_service.dart';
 import 'recipe_model.dart';
+import 'recipe_detail_screen.dart';
 
 class RecipeSearchScreen extends StatefulWidget {
-  const RecipeSearchScreen({Key? key}) : super(key: key);
+  const RecipeSearchScreen({super.key});
 
   @override
   _RecipeSearchScreenState createState() => _RecipeSearchScreenState();
 }
 
 class _RecipeSearchScreenState extends State<RecipeSearchScreen> {
-  final TextEditingController _controller = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
+  final RecipeService _recipeService = RecipeService();
   List<Recipe> _recipes = [];
   bool _isLoading = false;
+  String _errorMessage = '';
 
-  void _searchRecipes(String query) async {
+  void _searchRecipes() async {
     setState(() {
       _isLoading = true;
+      _errorMessage = '';
     });
 
-    RecipeService recipeService = RecipeService();
     try {
-      List<Recipe> recipes = await recipeService.searchRecipes(query);
+      final recipes =
+          await _recipeService.searchRecipes(_searchController.text);
       setState(() {
         _recipes = recipes;
-        _isLoading = false;
       });
     } catch (e) {
-      print('Error searching recipes: $e');
+      setState(() {
+        _errorMessage = 'Error searching recipes: $e';
+      });
+    } finally {
       setState(() {
         _isLoading = false;
       });
@@ -39,59 +44,84 @@ class _RecipeSearchScreenState extends State<RecipeSearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Recipe Search'),
+        title: const Center(child: Text("Shopping")),
+        automaticallyImplyLeading: false,
       ),
-      body: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: _controller,
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: <Widget>[
+            TextField(
+              controller: _searchController,
               decoration: InputDecoration(
-                labelText: 'Search Recipes',
+                labelText: 'Search for recipes',
                 suffixIcon: IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () {
-                    _searchRecipes(_controller.text);
+                  icon: const Icon(Icons.search),
+                  onPressed: _searchRecipes,
+                ),
+              ),
+              onSubmitted: (_) => _searchRecipes(),
+            ),
+            if (_isLoading) const CircularProgressIndicator(),
+            if (_errorMessage.isNotEmpty)
+              Text(
+                _errorMessage,
+                style: const TextStyle(color: Colors.red),
+              ),
+            if (_recipes.isNotEmpty)
+              Expanded(
+                child: ListView.builder(
+                  itemCount: _recipes.length,
+                  itemBuilder: (context, index) {
+                    final recipe = _recipes[index];
+                    return GestureDetector(
+                      onTap: () async {
+                        RecipeService recipeService = RecipeService();
+                        try {
+                          Recipe detailedRecipe =
+                              await recipeService.getRecipeDetails(recipe.id);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RecipeDetailScreen(
+                                recipe: detailedRecipe,
+                              ),
+                            ),
+                          );
+                        } catch (e) {
+                          print('Error fetching recipe details: $e');
+                        }
+                      },
+                      child: Card(
+                        margin: const EdgeInsets.symmetric(vertical: 8),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            recipe.imageUrl.isNotEmpty
+                                ? Image.network(recipe.imageUrl,
+                                    height: 200, fit: BoxFit.cover)
+                                : const SizedBox(
+                                    height: 200,
+                                    child: Center(
+                                        child: Text('No image available')),
+                                  ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                recipe.title,
+                                style: const TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
                   },
                 ),
               ),
-            ),
-          ),
-          _isLoading
-              ? Center(child: CircularProgressIndicator())
-              : Expanded(
-                  child: ListView.builder(
-                    itemCount: _recipes.length,
-                    itemBuilder: (context, index) {
-                      Recipe recipe = _recipes[index];
-                      return ListTile(
-                        title: Text(recipe.title),
-                        //subtitle: Text('Ready in ${recipe.readyInMinutes} minutes'),
-                        leading: recipe.imageUrl.isNotEmpty
-                            ? Image.network(recipe.imageUrl)
-                            : null,
-                        onTap: () async {
-                          RecipeService recipeService = RecipeService();
-                          try {
-                            Recipe detailedRecipe = await recipeService.getRecipeDetails(recipe.id);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => RecipeDetailScreen(
-                                  recipe: detailedRecipe,
-                                ),
-                              ),
-                            );
-                          } catch (e) {
-                            print('Error fetching recipe details: $e');
-                          }
-                        },
-                      );
-                    },
-                  ),
-                ),
-        ],
+          ],
+        ),
       ),
     );
   }

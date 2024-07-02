@@ -2,39 +2,15 @@ import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:smart_shopping_list/main.dart';
 import 'package:smart_shopping_list/pages/inventory/stock/article.dart';
+import 'package:smart_shopping_list/util/database/database_instance.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:async';
 
 class ArticleDatabase {
-  ArticleDatabase._privateConstructor();
-  static final ArticleDatabase instance = ArticleDatabase._privateConstructor();
-  static Database? _database;
-
-  factory ArticleDatabase() {
-    return instance;
-  }
-
-  Future<Database> get database async {
-    if (_database != null) return _database!;
-    _database = await initDB();
-    return _database!;
-  }
-
-  Future<Database> initDB() async {
-   final Future<Database> database  = openDatabase(
-   join(await getDatabasesPath(), 'article_database.db'),
-   onCreate: (db, version) {
-    return db.execute(
-      'CREATE TABLE articles(name TEXT PRIMARY KEY, currentAmount REAL, dailyUsage REAL, unit TEXT, rebuyAmount REAL, lastUsage TEXT)',
-    );
-  },
-   version: 1,
-  );
-    return database;
-  }
-
+  
   static Future<void> insertArticle(Article article) async {
-    await ArticleDatabase._database!.insert(
+    final database = await DatabaseInstance().database;
+    await database.insert(
       'articles',
       article.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
@@ -42,7 +18,8 @@ class ArticleDatabase {
   }
 
   static Future<List<Article>> getAllArticles() async {
-    final List<Map<String, Object?>> articlesMap = await ArticleDatabase._database!.query('articles');
+    final database = await DatabaseInstance().database;
+    final List<Map<String, Object?>> articlesMap = await database.query('articles');
     return [
       for (final {
             'name': name as String,
@@ -63,9 +40,9 @@ class ArticleDatabase {
   }
 
   static Future<void> updateArticle(Article article) async {
+    final database = await DatabaseInstance().database;
 
-
-    await ArticleDatabase._database!.update(
+    await database.update(
       'articles',
       article.toMap(),
       where: 'name = ?',
@@ -74,17 +51,17 @@ class ArticleDatabase {
   }
 
   static Future<void> deleteArticle(String name) async {
-   
-    await ArticleDatabase._database!.delete(
+   final database = await DatabaseInstance().database;
+    await database.delete(
       'articles',
       where: 'name = ?',
       whereArgs: [name],
     );
   }
 
-
   static Future<Article?> getArticle(String name) async {
-    List<Map<String, Object?>> result = await ArticleDatabase._database!.query(
+    final database = await DatabaseInstance().database;
+    List<Map<String, Object?>> result = await database.query(
       'articles',
       where: 'name = ?',
       whereArgs: [name] 
@@ -102,6 +79,3 @@ class ArticleDatabase {
     }  
   }
 }
-
-
-

@@ -28,9 +28,4 @@ class Article {
   String toString() {
     return 'Article{name: $name, currentAmount: $currentAmount, dailyUsage: $dailyUsage, unit: $unit, rebuyAmount: $rebuyAmount, lastUsgage: $lastUsage}';
   }
-
-
-
 }
-
-
