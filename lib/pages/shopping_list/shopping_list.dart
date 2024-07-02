@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_shopping_list/util/widget/input_field.dart';
 
 import 'items/item.dart';
-import 'shopping_list_provider.dart'; // Import the provider
+import 'shopping_list_provider.dart';
 
 class ShoppingList extends ConsumerWidget {
   const ShoppingList({super.key});
