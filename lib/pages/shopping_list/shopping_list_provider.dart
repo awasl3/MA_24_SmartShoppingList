@@ -25,14 +25,13 @@ class ShoppingListNotifier extends StateNotifier<List<Item>> {
   void toggleChecked(Item item) {
     item.checked = !item.checked;
     ItemDatabase.updateItem(item);
-    state = List.from(state); // Trigger a state update
+    state = List.from(state);
   }
 
   void _deleteItems(List<Item> items) {
     for (var item in items) {
-      ItemDatabase.deleteItem(item.name);
+      deleteItem(item);
     }
-    state = state.where((item) => !item.checked).toList();
   }
 
   void deleteCheckedItems() {
@@ -73,6 +72,11 @@ class ShoppingListNotifier extends StateNotifier<List<Item>> {
 
   void editItem(Item updatedItem) {
     ItemDatabase.updateItem(updatedItem);
-    _loadItems(); // Reload the items to reflect the changes
+    _loadItems();
+  }
+
+  void deleteItem(Item item) {
+    ItemDatabase.deleteItem(item.name);
+    state = state.where((i) => i != item).toList();
   }
 }

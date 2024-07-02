@@ -96,7 +96,20 @@ class ShoppingList extends ConsumerWidget {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: Text(item == null ? 'Add' : 'Edit'),
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(item == null ? 'Add' : 'Edit'),
+                  if (item != null)
+                    IconButton(
+                      icon: const Icon(Icons.delete),
+                      color: Colors.redAccent,
+                      onPressed: () {
+                        shoppingListNotifier.deleteItem(item);
+                        Navigator.of(context).pop();},
+                    ),
+                ],
+              ),
               content: SingleChildScrollView(
                 child: Column(
                   children: [
@@ -108,6 +121,8 @@ class ShoppingList extends ConsumerWidget {
                   ],
                 ),
               ),
+              actionsAlignment: MainAxisAlignment.spaceEvenly,
+
               actions: <Widget>[
                 ElevatedButton(
                   child: const Text('Cancel'),
@@ -116,7 +131,7 @@ class ShoppingList extends ConsumerWidget {
                   },
                 ),
                 ElevatedButton(
-                  child: const Text('Confirm'),
+                  child: const Text('Save'),
                   onPressed: () {
                     var newItem = Item(
                       name: nameController.text,
