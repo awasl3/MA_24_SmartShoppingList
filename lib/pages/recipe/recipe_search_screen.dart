@@ -44,7 +44,7 @@ class _RecipeSearchScreenState extends State<RecipeSearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(child: Text("Shopping")),
+        title: const Center(child: Text('Shopping')),
         automaticallyImplyLeading: false,
       ),
       body: Padding(

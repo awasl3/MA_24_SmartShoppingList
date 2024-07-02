@@ -18,7 +18,7 @@ class StockTableHeader extends ConsumerWidget {
       bool articleDeletion, WidgetRef ref, BuildContext context) {
     List<Widget> children = [
       FloatingActionButton(
-          heroTag: "addButton",
+          heroTag: 'addButton',
           backgroundColor: Colors.greenAccent,
           child: const Icon(Icons.add),
           onPressed: () {
@@ -28,7 +28,7 @@ class StockTableHeader extends ConsumerWidget {
     ];
     if (articleDeletion) {
       children.add(FloatingActionButton(
-          heroTag: "deletionButton",
+          heroTag: 'deletionButton',
           backgroundColor: Colors.redAccent,
           child: const Icon(Icons.delete_forever),
           onPressed: () {
@@ -48,19 +48,19 @@ class StockTableHeader extends ConsumerWidget {
     await showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              title: const Text("Delete Articles"),
+              title: const Text('Delete Articles'),
               content: const Text(
                   'Are you sure, you want to deleted the selected articles from the stock.\n! This action can not be undone !'),
               actions: [
                 ElevatedButton.icon(
                     icon: const Icon(Icons.cancel),
-                    label: const Text("Cancel"),
+                    label: const Text('Cancel'),
                     onPressed: () {
                       Navigator.pop(context, 'Cancel');
                     }),
                 ElevatedButton.icon(
                     icon: const Icon(Icons.check),
-                    label: const Text("Confirm"),
+                    label: const Text('Confirm'),
                     onPressed: () async {
                       List<Article> articles =
                           ref.read(articleDeletionSelection);

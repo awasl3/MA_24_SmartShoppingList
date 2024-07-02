@@ -12,7 +12,7 @@ class InventoryPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(articlesChanged);
     return Scaffold(
-        appBar: AppBar(title: const Center(child: Text("Current Stock"))),
+        appBar: AppBar(title: const Center(child: Text('Current Stock'))),
         body: Center(
             child: FutureBuilder<List<Article>>(
                 future: getAllArticles(),
@@ -27,7 +27,7 @@ class InventoryPage extends ConsumerWidget {
   }
 
   Future<List<Article>> getAllArticles() async {
-    //ArticleDatabase.insertArticle(Article(name: "name "+ Random().nextInt(100).toString(), currentAmount: 3.0, dailyUsage: 1, unit: "Liter", rebuyAmount: 1.0));
+    //ArticleDatabase.insertArticle(Article(name: 'name '+ Random().nextInt(100).toString(), currentAmount: 3.0, dailyUsage: 1, unit: 'Liter', rebuyAmount: 1.0));
     return await ArticleDatabase.getAllArticles();
   }
 }

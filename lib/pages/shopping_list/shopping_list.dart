@@ -14,7 +14,7 @@ class ShoppingList extends ConsumerWidget {
     final shoppingListNotifier = ref.read(shoppingListProvider.notifier);
 
     return Scaffold(
-      appBar: AppBar(title: const Center(child: Text("Shopping"))),
+      appBar: AppBar(title: const Center(child: Text('Shopping'))),
       body: Scrollbar(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -85,10 +85,10 @@ class ShoppingList extends ConsumerWidget {
   Future<void> _showAddEditItemDialog(
       BuildContext context, ShoppingListNotifier shoppingListNotifier,
       {Item? item}) async {
-    final nameController = TextEditingController(text: item?.name ?? "");
+    final nameController = TextEditingController(text: item?.name ?? '');
     final amountController =
-        TextEditingController(text: item?.amount.toString() ?? "");
-    final unitController = TextEditingController(text: item?.unit ?? "");
+        TextEditingController(text: item?.amount.toString() ?? '');
+    final unitController = TextEditingController(text: item?.unit ?? '');
 
     return showDialog(
       context: context,
@@ -100,11 +100,11 @@ class ShoppingList extends ConsumerWidget {
               content: SingleChildScrollView(
                 child: Column(
                   children: [
-                    buildTextInputField(nameController, "Name", setState),
+                    buildTextInputField(nameController, 'Name', setState),
                     const SizedBox(height: 10),
-                    buildNumberInputField(amountController, "Amount", setState),
+                    buildNumberInputField(amountController, 'Amount', setState),
                     const SizedBox(height: 10),
-                    buildTextInputField(unitController, "Unit", setState),
+                    buildTextInputField(unitController, 'Unit', setState),
                   ],
                 ),
               ),

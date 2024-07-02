@@ -41,7 +41,7 @@ class Stock {
             name: ingredient,
             currentAmount: 0,
             dailyUsage: 0,
-            unit: "",
+            unit: '',
             rebuyAmount: 0);
         await ArticleDatabase.insertArticle(newArticle);
       }

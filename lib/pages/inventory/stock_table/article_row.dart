@@ -18,8 +18,8 @@ class ArticleRow extends ConsumerWidget {
 //       cells:
 //     [
 //       DataCell(Text(article.name)),
-//       DataCell(Text("${article.currentAmount } ${article.unit}")),
-//       DataCell(Text("${article.rebuyAmount} ${article.unit}")),
+//       DataCell(Text('${article.currentAmount } ${article.unit}')),
+//       DataCell(Text('${article.rebuyAmount} ${article.unit}')),
 //       DataCell(editButtons())
 //     ]
 //     );

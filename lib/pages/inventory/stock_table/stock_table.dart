@@ -30,8 +30,8 @@ class StockTable extends ConsumerWidget {
       double aDaysLeft = a1 / a2;
       double bDaysLeft = b1 / b2;
 
-      print("$a $aDaysLeft");
-      print("$b $bDaysLeft");
+      print('$a $aDaysLeft');
+      print('$b $bDaysLeft');
 
       return (a1 / a2).compareTo(b1 / b2);
     });
@@ -65,7 +65,7 @@ class StockTable extends ConsumerWidget {
                   }
                 },
                 child: AlertDialog(
-                  title: Text("Article ${article.name} deletion"),
+                  title: Text('Article ${article.name} deletion'),
                   content: Text(
                       'Are you sure, you want to deleted article ${article.name} from the stock.\nThis action can not be undone'),
                   actions: <Widget>[
@@ -111,7 +111,7 @@ class StockTable extends ConsumerWidget {
                 },
                 child: AlertDialog(
                   scrollable: true,
-                  title: Text("Article ${article.name} editor"),
+                  title: Text('Article ${article.name} editor'),
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -120,7 +120,7 @@ class StockTable extends ConsumerWidget {
                             border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(1000))),
-                            labelText: "Name",
+                            labelText: 'Name',
                             hintText: 'Please provide a name for the article'),
                         initialValue: name,
                         onChanged: (String? value) {
@@ -142,7 +142,7 @@ class StockTable extends ConsumerWidget {
                             border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(1000))),
-                            labelText: "Current Amount",
+                            labelText: 'Current Amount',
                             hintText:
                                 'Please provide the current amount of the article'),
                         initialValue: currentAmount.toString(),
@@ -165,7 +165,7 @@ class StockTable extends ConsumerWidget {
                             border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(1000))),
-                            labelText: "Daily usage",
+                            labelText: 'Daily usage',
                             hintText:
                                 'Please provide the daily usage of the article'),
                         initialValue: dailyUsage.toString(),
@@ -187,7 +187,7 @@ class StockTable extends ConsumerWidget {
                             border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(1000))),
-                            labelText: "Unit",
+                            labelText: 'Unit',
                             hintText: 'Please provide a unit for the article'),
                         initialValue: unit,
                         onChanged: (String? value) {
@@ -209,7 +209,7 @@ class StockTable extends ConsumerWidget {
                             border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(1000))),
-                            labelText: "Rebuy amount",
+                            labelText: 'Rebuy amount',
                             hintText:
                                 'Please provide the rebuy amount of the article'),
                         initialValue: rebuyAmount.toString(),
@@ -275,10 +275,10 @@ class StockTable extends ConsumerWidget {
       return;
     }
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      String name = "";
+      String name = '';
       double currentAmount = 0;
       double dailyUsage = 0;
-      String unit = "";
+      String unit = '';
       double rebuyAmount = 0;
       await showDialog<String>(
           context: context,
@@ -290,7 +290,7 @@ class StockTable extends ConsumerWidget {
               },
               child: AlertDialog(
                 scrollable: true,
-                title: const Text("Article creator"),
+                title: const Text('Article creator'),
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -299,7 +299,7 @@ class StockTable extends ConsumerWidget {
                           border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(1000))),
-                          labelText: "Name",
+                          labelText: 'Name',
                           hintText: 'Please provide a name for the article'),
                       initialValue: name,
                       onChanged: (String? value) {
@@ -321,7 +321,7 @@ class StockTable extends ConsumerWidget {
                           border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(1000))),
-                          labelText: "Current Amount",
+                          labelText: 'Current Amount',
                           hintText:
                               'Please provide the current amount of the article'),
                       initialValue: currentAmount.toString(),
@@ -344,7 +344,7 @@ class StockTable extends ConsumerWidget {
                           border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(1000))),
-                          labelText: "Daily usage",
+                          labelText: 'Daily usage',
                           hintText:
                               'Please provide the daily usage of the article'),
                       initialValue: dailyUsage.toString(),
@@ -366,7 +366,7 @@ class StockTable extends ConsumerWidget {
                           border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(1000))),
-                          labelText: "Unit",
+                          labelText: 'Unit',
                           hintText: 'Please provide a unit for the article'),
                       initialValue: unit,
                       onChanged: (String? value) {
@@ -388,7 +388,7 @@ class StockTable extends ConsumerWidget {
                           border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(1000))),
-                          labelText: "Rebuy amount",
+                          labelText: 'Rebuy amount',
                           hintText:
                               'Please provide the rebuy amount of the article'),
                       initialValue: rebuyAmount.toString(),

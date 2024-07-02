@@ -53,13 +53,13 @@ class ArticleCell extends ConsumerWidget {
                           ? TextDecoration.lineThrough
                           : null)),
               Text(
-                "In stock: ${article.currentAmount} ${article.unit}",
+                'In stock: ${article.currentAmount} ${article.unit}',
                 style: selectedArticles.contains(article)
                     ? const TextStyle(decoration: TextDecoration.lineThrough)
                     : null,
               ),
               Text(
-                "Usage: ${article.dailyUsage} ${article.unit}/day",
+                'Usage: ${article.dailyUsage} ${article.unit}/day',
                 style: selectedArticles.contains(article)
                     ? const TextStyle(decoration: TextDecoration.lineThrough)
                     : null,

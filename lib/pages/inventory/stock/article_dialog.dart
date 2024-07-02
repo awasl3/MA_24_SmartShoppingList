@@ -47,36 +47,36 @@ class ArticleDialog {
 
             return AlertDialog(
               title: article == null
-                  ? const Text("Create Article")
-                  : const Text("Edit Article"),
+                  ? const Text('Create Article')
+                  : const Text('Edit Article'),
               content: SingleChildScrollView(
                   child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  buildTextInputField(nameController, "Name", setState),
+                  buildTextInputField(nameController, 'Name', setState),
                   const SizedBox(height: 10),
                   buildNumberInputField(
-                      currentAmountController, "Current amount", setState),
+                      currentAmountController, 'Current amount', setState),
                   const SizedBox(height: 10),
                   buildNumberInputField(
-                      dailyUsageController, "Daily usage", setState),
+                      dailyUsageController, 'Daily usage', setState),
                   const SizedBox(height: 10),
-                  buildTextInputField(unitController, "Unit", setState),
+                  buildTextInputField(unitController, 'Unit', setState),
                   const SizedBox(height: 10),
                   buildNumberInputField(
-                      rebuyAmountController, "Rebuy amount", setState),
+                      rebuyAmountController, 'Rebuy amount', setState),
                 ],
               )),
               actions: [
                 ElevatedButton.icon(
                     icon: const Icon(Icons.cancel),
-                    label: const Text("Cancel"),
+                    label: const Text('Cancel'),
                     onPressed: () {
                       Navigator.pop(context, 'Cancel');
                     }),
                 ElevatedButton.icon(
                     icon: const Icon(Icons.check),
-                    label: const Text("Confirm"),
+                    label: const Text('Confirm'),
                     onPressed: isConfirmEnabled()
                         ? () async {
                             final String name = nameController.text;
