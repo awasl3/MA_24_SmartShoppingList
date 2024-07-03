@@ -100,8 +100,6 @@ void main() {
     expect(find.byType(SizedBox), findsExactly(1));
     expect(table.articles, [article, article]);
   });
-
- 
 }
 
 Widget getTestWidget(StockTable child) {

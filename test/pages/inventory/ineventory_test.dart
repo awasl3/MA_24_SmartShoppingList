@@ -70,7 +70,7 @@ void main() {
   });
 
   testWidgets('Inventory page has Add Button', (tester) async {
-     await GetIt.I.reset();
+    await GetIt.I.reset();
     MockArticleDatabse mock = MockArticleDatabse();
     when(mock.getAllArticles()).thenAnswer((_) => Future(() => [article]));
 
@@ -108,7 +108,7 @@ void main() {
       articlesChanged.overrideWith((ref) {
         return false;
       }),
-       articleDeletionMode.overrideWith((ref) {
+      articleDeletionMode.overrideWith((ref) {
         return true;
       })
     ]);
@@ -145,7 +145,7 @@ void main() {
       articleDeletionSelection.overrideWith((ref) {
         return [article];
       }),
-       articleDeletionMode.overrideWith((ref) {
+      articleDeletionMode.overrideWith((ref) {
         return true;
       })
     ]);

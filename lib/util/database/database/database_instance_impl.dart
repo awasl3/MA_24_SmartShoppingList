@@ -30,7 +30,7 @@ class DatabaseInstanceImpl extends DatabaseInstance {
       onCreate: (db, version) async {
         // Run the CREATE TABLE statement on the database.
         await db.execute(
-              'CREATE TABLE shopping_list(name TEXT PRIMARY KEY, amount REAL, unit TEXT, checked INTEGER DEFAULT 0)');
+            'CREATE TABLE shopping_list(name TEXT PRIMARY KEY, amount REAL, unit TEXT, checked INTEGER DEFAULT 0)');
         return db.execute(
           'CREATE TABLE articles(name TEXT PRIMARY KEY, currentAmount REAL, dailyUsage REAL, unit TEXT, rebuyAmount REAL, lastUsage TEXT)',
         );

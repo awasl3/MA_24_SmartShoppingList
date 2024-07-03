@@ -5,7 +5,6 @@ import 'package:smart_shopping_list/pages/shopping_list/items/item_database.dart
 import 'package:smart_shopping_list/util/database/article_database/article_databse.dart';
 import 'package:smart_shopping_list/util/routing/provider/providers.dart';
 
-
 import 'items/item.dart';
 
 final shoppingListProvider =

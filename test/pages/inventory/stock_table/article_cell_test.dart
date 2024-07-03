@@ -18,7 +18,6 @@ final Article article = Article(
     lastUsage: DateTime(2024, 1, 7, 17, 30));
 
 void main() {
- 
   test('ArticleCell gets correct Color on high stock', () {
     final Article article = Article(
         name: "Testarticle",
@@ -59,36 +58,33 @@ void main() {
   });
 
   testWidgets('ArticleCell displays data from article', (tester) async {
-    await tester.pumpWidget(getTestWidget([],article));
+    await tester.pumpWidget(getTestWidget([], article));
     final nameFinder = find.text('Testarticle');
     final stockFinder = find.text('3.14 liter @ 1.59 liter/day');
-    
 
     expect(nameFinder, findsOneWidget);
     expect(stockFinder, findsOneWidget);
-
 
     Text text = nameFinder.evaluate().first.widget as Text;
     expect(text.style!.decoration, null);
     expect(text.style!.fontSize, 20);
   });
 
-  testWidgets('ArticleCell displays data from article with no usagae', (tester) async {
+  testWidgets('ArticleCell displays data from article with no usagae',
+      (tester) async {
     final Article article = Article(
-    name: "Testarticle",
-    currentAmount: 3.14,
-    dailyUsage: 0,
-    unit: "liter",
-    rebuyAmount: 265.359,
-    lastUsage: DateTime(2024, 1, 7, 17, 30));
-    await tester.pumpWidget(getTestWidget([],article));
+        name: "Testarticle",
+        currentAmount: 3.14,
+        dailyUsage: 0,
+        unit: "liter",
+        rebuyAmount: 265.359,
+        lastUsage: DateTime(2024, 1, 7, 17, 30));
+    await tester.pumpWidget(getTestWidget([], article));
     final nameFinder = find.text('Testarticle');
     final stockFinder = find.text('3.14 liter');
-    
 
     expect(nameFinder, findsOneWidget);
     expect(stockFinder, findsOneWidget);
-
 
     Text text = nameFinder.evaluate().first.widget as Text;
     expect(text.style!.decoration, null);
@@ -101,7 +97,7 @@ void main() {
       articleDeletionSelection.overrideWith((ref) {
         return [article];
       })
-    ],article));
+    ], article));
 
     final crossFinder = find.byType(Icon);
 
@@ -119,7 +115,7 @@ void main() {
       articleDeletionMode.overrideWith((ref) {
         return false;
       })
-    ],article);
+    ], article);
     await tester.pumpWidget(testWidget);
     final element = tester.element(find.byType(ArticleCell));
     final container = ProviderScope.containerOf(element);
@@ -143,7 +139,7 @@ void main() {
       articleDeletionMode.overrideWith((ref) {
         return false;
       })
-    ],article);
+    ], article);
     await tester.pumpWidget(testWidget);
     final element = tester.element(find.byType(ArticleCell));
     final container = ProviderScope.containerOf(element);
@@ -166,7 +162,7 @@ void main() {
       articleDeletionMode.overrideWith((ref) {
         return false;
       })
-    ],article);
+    ], article);
     await tester.pumpWidget(testWidget);
 
     await tester.tap(find.byType(ArticleCell));
@@ -197,7 +193,7 @@ void main() {
       articleDeletionMode.overrideWith((ref) {
         return true;
       })
-    ],article1);
+    ], article1);
 
     await tester.pumpWidget(testWidget);
 
@@ -230,7 +226,7 @@ void main() {
       articleDeletionMode.overrideWith((ref) {
         return true;
       })
-    ],article);
+    ], article);
 
     await tester.pumpWidget(testWidget);
 
@@ -258,7 +254,7 @@ void main() {
       articleDeletionMode.overrideWith((ref) {
         return true;
       })
-    ],article);
+    ], article);
 
     await tester.pumpWidget(testWidget);
 
@@ -276,7 +272,7 @@ void main() {
   });
 }
 
-Widget getTestWidget(List<Override> overrides,Article article) {
+Widget getTestWidget(List<Override> overrides, Article article) {
   return MediaQuery(
       data: const MediaQueryData(),
       child: MaterialApp(
