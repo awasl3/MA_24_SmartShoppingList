@@ -60,7 +60,7 @@ class ShoppingList extends ConsumerWidget {
                 onPressed: () => shoppingListNotifier.deleteCheckedItems(),
                 tooltip: 'Delete Checked Items',
                 backgroundColor: Colors.redAccent,
-                child: const Icon(Icons.delete),
+                child: const Icon(Icons.delete_forever),
               ),
               FloatingActionButton(
                 onPressed: () =>
@@ -102,7 +102,7 @@ class ShoppingList extends ConsumerWidget {
                   Text(item == null ? 'Add' : 'Edit'),
                   if (item != null)
                     IconButton(
-                      icon: const Icon(Icons.delete),
+                      icon: const Icon(Icons.delete_forever),
                       color: Colors.redAccent,
                       onPressed: () {
                         shoppingListNotifier.deleteItem(item);
