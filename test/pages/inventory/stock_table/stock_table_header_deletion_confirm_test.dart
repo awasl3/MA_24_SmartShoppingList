@@ -16,12 +16,8 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import 'stock_table_header_deletion_confirm_test.mocks.dart';
 
-
-
 @GenerateMocks([ArticleDatabse])
 Future main() async {
-
-
   final Article article = Article(
       name: "Testarticle",
       currentAmount: 3.14,
@@ -30,7 +26,7 @@ Future main() async {
       rebuyAmount: 265.359,
       lastUsage: DateTime(2024, 1, 7, 17, 30));
 
-       final Article article1 = Article(
+  final Article article1 = Article(
       name: "Testarticle 1",
       currentAmount: 3.14,
       dailyUsage: 1.59,
@@ -38,18 +34,13 @@ Future main() async {
       rebuyAmount: 265.359,
       lastUsage: DateTime(2024, 1, 7, 17, 30));
 
-  
-
-
-
-
   testWidgets('Deletion Dialog can be confirmed', (tester) async {
-      final MockArticleDatabse mock = MockArticleDatabse();
-        when(mock.deleteArticle(any)).thenAnswer((_)=> Future.value());
-      GetIt.I.registerSingleton<ArticleDatabse>(mock);
+    final MockArticleDatabse mock = MockArticleDatabse();
+    when(mock.deleteArticle(any)).thenAnswer((_) => Future.value());
+    GetIt.I.registerSingleton<ArticleDatabse>(mock);
     Widget testWidget = getTestWidget([
       articleDeletionSelection.overrideWith((ref) {
-        return [article,article1];
+        return [article, article1];
       }),
       articleDeletionMode.overrideWith((ref) {
         return true;
@@ -70,7 +61,7 @@ Future main() async {
 
     await tester.tap(find.text("Confirm"));
     await tester.pumpAndSettle();
-  
+
     expect(find.byType(AlertDialog), findsNothing);
 
     final element = tester.element(find.byType(StockTableHeader));
@@ -80,15 +71,11 @@ Future main() async {
     expect(container.read(articleDeletionMode), false);
     expect(container.read(articlesChanged), false);
 
-   
-   verify(mock.deleteArticle("Testarticle")).called(1);
-   verify(mock.deleteArticle("Testarticle 1")).called(1);  
+    verify(mock.deleteArticle("Testarticle")).called(1);
+    verify(mock.deleteArticle("Testarticle 1")).called(1);
 
-
-   await GetIt.I.reset();
-
+    await GetIt.I.reset();
   });
-
 }
 
 Widget getTestWidget(List<Override> overrides) {

@@ -66,7 +66,9 @@ class StockTableHeader extends ConsumerWidget {
                       List<Article> articles =
                           ref.read(articleDeletionSelection);
                       for (Article article in articles) {
-                        await GetIt.I.get<ArticleDatabse>().deleteArticle(article.name);
+                        await GetIt.I
+                            .get<ArticleDatabse>()
+                            .deleteArticle(article.name);
                       }
                       ref.read(articleDeletionMode.notifier).state = false;
                       ref.read(articleDeletionSelection.notifier).state = [];

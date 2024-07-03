@@ -27,7 +27,8 @@ class Stock {
 
   static Future<void> subtractIngredients(List<String> ingredients) async {
     for (String ingredient in ingredients) {
-      Article? article = await GetIt.I.get<ArticleDatabse>().getArticle(ingredient);
+      Article? article =
+          await GetIt.I.get<ArticleDatabse>().getArticle(ingredient);
       if (article != null) {
         await GetIt.I.get<ArticleDatabse>().updateArticle(article);
       }
@@ -36,7 +37,8 @@ class Stock {
 
   static Future<void> addIngredients(List<String> ingredients) async {
     for (String ingredient in ingredients) {
-      Article? article = await GetIt.I.get<ArticleDatabse>().getArticle(ingredient);
+      Article? article =
+          await GetIt.I.get<ArticleDatabse>().getArticle(ingredient);
       if (article != null) {
         await GetIt.I.get<ArticleDatabse>().updateArticle(article);
       } else {
@@ -53,7 +55,8 @@ class Stock {
   }
 
   static Future<void> subtractDailyUsage() async {
-    List<Article> articles = await GetIt.I.get<ArticleDatabse>().getAllArticles();
+    List<Article> articles =
+        await GetIt.I.get<ArticleDatabse>().getAllArticles();
     for (Article article in articles) {
       double newAmount = article.currentAmount -
           (DateTime.now().difference(article.lastUsage).inDays) *

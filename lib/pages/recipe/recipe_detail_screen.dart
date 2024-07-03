@@ -17,7 +17,8 @@ class RecipeDetailScreen extends ConsumerWidget {
     Map<String, IngredientStatus> ingredientAvailability = {};
 
     for (var ingredient in recipe.ingredients) {
-      final article = await GetIt.I.get<ArticleDatabse>().getArticle(ingredient.name);
+      final article =
+          await GetIt.I.get<ArticleDatabse>().getArticle(ingredient.name);
       if (article != null) {
         if (article.currentAmount >= ingredient.amount) {
           ingredientAvailability[ingredient.name] = IngredientStatus.available;

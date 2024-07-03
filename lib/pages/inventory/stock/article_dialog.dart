@@ -100,15 +100,22 @@ class ArticleDialog {
                                 lastUsage: Article.resetUsage());
 
                             if (article == null) {
-                              await GetIt.I.get<ArticleDatabse>().insertArticle(newArticle);
+                              await GetIt.I
+                                  .get<ArticleDatabse>()
+                                  .insertArticle(newArticle);
                             } else {
                               if (article!.name == newArticle.name) {
                                 newArticle.lastUsage = article!.lastUsage;
-                                await GetIt.I.get<ArticleDatabse>().updateArticle(newArticle);
+                                await GetIt.I
+                                    .get<ArticleDatabse>()
+                                    .updateArticle(newArticle);
                               } else {
-                                await GetIt.I.get<ArticleDatabse>().deleteArticle(
-                                    article!.name);
-                                await GetIt.I.get<ArticleDatabse>().insertArticle(newArticle);
+                                await GetIt.I
+                                    .get<ArticleDatabse>()
+                                    .deleteArticle(article!.name);
+                                await GetIt.I
+                                    .get<ArticleDatabse>()
+                                    .insertArticle(newArticle);
                               }
                             }
 

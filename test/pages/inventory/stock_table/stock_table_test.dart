@@ -55,44 +55,42 @@ void main() {
 
   testWidgets('Stock Table sorts articles based on daily usage',
       (tester) async {
-        final Article noUsage = Article(
-      name: "Testarticle",
-      currentAmount: 10,
-      dailyUsage: 0,
-      unit: "liter",
-      rebuyAmount: 265.359,
-      lastUsage: DateTime(2024, 1, 7, 17, 30));
-      final Article fourDays = Article(
-      name: "Testarticle",
-      currentAmount: 20,
-      dailyUsage: 5,
-      unit: "liter",
-      rebuyAmount: 265.359,
-      lastUsage: DateTime(2024, 1, 7, 17, 30));
-      final Article noStock = Article(
-      name: "Testarticle",
-      currentAmount: 0,
-      dailyUsage: 1,
-      unit: "liter",
-      rebuyAmount: 265.359,
-      lastUsage: DateTime(2024, 1, 7, 17, 30));
-      final Article noStockAndUsage = Article(
-      name: "Testarticle",
-      currentAmount: 0,
-      dailyUsage: 0,
-      unit: "liter",
-      rebuyAmount: 265.359,
-      lastUsage: DateTime(2024, 1, 7, 17, 30));
-    final table = StockTable(articles: [noStockAndUsage,fourDays,noStock,noUsage]);
+    final Article noUsage = Article(
+        name: "Testarticle",
+        currentAmount: 10,
+        dailyUsage: 0,
+        unit: "liter",
+        rebuyAmount: 265.359,
+        lastUsage: DateTime(2024, 1, 7, 17, 30));
+    final Article fourDays = Article(
+        name: "Testarticle",
+        currentAmount: 20,
+        dailyUsage: 5,
+        unit: "liter",
+        rebuyAmount: 265.359,
+        lastUsage: DateTime(2024, 1, 7, 17, 30));
+    final Article noStock = Article(
+        name: "Testarticle",
+        currentAmount: 0,
+        dailyUsage: 1,
+        unit: "liter",
+        rebuyAmount: 265.359,
+        lastUsage: DateTime(2024, 1, 7, 17, 30));
+    final Article noStockAndUsage = Article(
+        name: "Testarticle",
+        currentAmount: 0,
+        dailyUsage: 0,
+        unit: "liter",
+        rebuyAmount: 265.359,
+        lastUsage: DateTime(2024, 1, 7, 17, 30));
+    final table =
+        StockTable(articles: [noStockAndUsage, fourDays, noStock, noUsage]);
     Widget testWidget = getTestWidget(table);
 
     await tester.pumpWidget(testWidget);
 
-    
-    expect(table.articles, [noStock,fourDays,noStockAndUsage,noUsage]);
+    expect(table.articles, [noStock, fourDays, noStockAndUsage, noUsage]);
   });
-
-
 
   testWidgets('Stock Table has two article cell', (tester) async {
     final table = StockTable(articles: [article, article]);
@@ -104,32 +102,38 @@ void main() {
     expect(table.articles, [article, article]);
   });
 
-  testWidgets('Stock Table sorts has scrollable list',
-      (tester) async {
-      final Article article1 = Article(
-      name: "Testarticle 1",
-      currentAmount: 1000,
-      dailyUsage: 0,
-      unit: "liter",
-      rebuyAmount: 265.359,
-      lastUsage: DateTime(2024, 1, 7, 17, 30));
-     
-    final table = StockTable(articles: [article,article,article,article,article,article,article,article,article1]);
+  testWidgets('Stock Table sorts has scrollable list', (tester) async {
+    final Article article1 = Article(
+        name: "Testarticle 1",
+        currentAmount: 1000,
+        dailyUsage: 0,
+        unit: "liter",
+        rebuyAmount: 265.359,
+        lastUsage: DateTime(2024, 1, 7, 17, 30));
+
+    final table = StockTable(articles: [
+      article,
+      article,
+      article,
+      article,
+      article,
+      article,
+      article,
+      article,
+      article1
+    ]);
     Widget testWidget = getTestWidget(table);
 
     await tester.pumpWidget(testWidget);
 
-
     final viewFinder = find.text('Testarticle 1', skipOffstage: true);
     expect(viewFinder, findsNothing);
 
-    await tester.dragUntilVisible(
-        find.text('Testarticle 1'), find.byType(ListView), const Offset(0, -250),
+    await tester.dragUntilVisible(find.text('Testarticle 1'),
+        find.byType(ListView), const Offset(0, -250),
         maxIteration: 1000 * 1000, duration: Duration.zero);
 
-    
     expect(viewFinder, findsOneWidget);
-
   });
 }
 
