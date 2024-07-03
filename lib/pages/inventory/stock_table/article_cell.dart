@@ -13,14 +13,32 @@ class ArticleCell extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     List<Article> selectedArticles = ref.watch(articleDeletionSelection);
     bool deletionMode = ref.watch(articleDeletionMode);
-    return GestureDetector(
+
+    late final String amountText;
+
+    if (article.dailyUsage > 0) {
+      amountText =
+          '${article.currentAmount} ${article.unit} @ ${article.dailyUsage} ${article.unit}/day';
+    } else {
+      amountText = '${article.currentAmount} ${article.unit}';
+    }
+
+    return Card(
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      color: getColor(selectedArticles),
+      clipBehavior: Clip.hardEdge,
+      child: InkWell(
+        onLongPress: () {
+          ref.read(articleDeletionMode.notifier).state = true;
+          ref.read(articleDeletionSelection.notifier).state.add(article);
+        },
         onTap: () {
           if (deletionMode) {
             if (selectedArticles.contains(article)) {
               ref.read(articleDeletionSelection.notifier).update((state) {
                 return state.where((i) => i != article).toList();
               });
-              print(ref.watch(articleDeletionSelection));
+
               if (ref.watch(articleDeletionSelection).isEmpty) {
                 ref.read(articleDeletionMode.notifier).state = false;
               }
@@ -34,49 +52,24 @@ class ArticleCell extends ConsumerWidget {
                 .showArticleDialog();
           }
         },
-        onLongPress: () {
-          ref.read(articleDeletionMode.notifier).state = true;
-          ref.watch(articleDeletionSelection.notifier).state.add(article);
-        },
-        child: Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-                border: Border.all(),
-                color: getColor(selectedArticles),
-                borderRadius: const BorderRadius.all(Radius.circular(30))),
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-              Text(article.name,
-                  style: TextStyle(
-                      fontSize: 30,
-                      decoration: selectedArticles.contains(article)
-                          ? TextDecoration.lineThrough
-                          : null)),
-              Text(
-                'In stock: ${article.currentAmount} ${article.unit}',
-                style: selectedArticles.contains(article)
-                    ? const TextStyle(decoration: TextDecoration.lineThrough)
-                    : null,
-              ),
-              Text(
-                'Usage: ${article.dailyUsage} ${article.unit}/day',
-                style: selectedArticles.contains(article)
-                    ? const TextStyle(decoration: TextDecoration.lineThrough)
-                    : null,
-              ),
-            ])));
+        child: ListTile(
+          title: Text(article.name, style: const TextStyle(fontSize: 20)),
+          subtitle: Text(amountText),
+          trailing: selectedArticles.contains(article)
+              ? const Icon(Icons.close, size: 40)
+              : null,
+        ),
+      ),
+    );
   }
 
-  Color getColor(List<Article> selectedArticles) {
-    if (selectedArticles.contains(article)) {
-      return Colors.red;
-    }
+  Color? getColor(List<Article> selectedArticles) {
     if (article.currentAmount >= 4 * article.dailyUsage) {
-      return Colors.green.withOpacity(0.8);
+      return null;
     } else if (article.currentAmount >= 2 * article.dailyUsage) {
-      return Colors.amber.withOpacity(0.8);
+      return Colors.amberAccent.shade100;
     } else {
-      return Colors.red.withOpacity(0.8);
+      return Colors.redAccent;
     }
   }
 }

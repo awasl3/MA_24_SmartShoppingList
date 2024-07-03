@@ -4,11 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_shopping_list/pages/inventory/stock/article.dart';
 import 'package:smart_shopping_list/pages/inventory/stock/article_database.dart';
 import 'package:smart_shopping_list/pages/inventory/stock_table/article_cell.dart';
-import 'package:smart_shopping_list/pages/inventory/stock_table/stock_table_header.dart';
 import 'package:smart_shopping_list/util/routing/provider/providers.dart';
 
 class StockTable extends ConsumerWidget {
   final List<Article> articles;
+
   const StockTable({super.key, required this.articles});
 
   @override
@@ -30,26 +30,16 @@ class StockTable extends ConsumerWidget {
       double aDaysLeft = a1 / a2;
       double bDaysLeft = b1 / b2;
 
-      print('$a $aDaysLeft');
-      print('$b $bDaysLeft');
-
       return (a1 / a2).compareTo(b1 / b2);
     });
-    return FractionallySizedBox(
-        widthFactor: 0.9,
-        child: Column(children: [
-          const StockTableHeader(),
-          Expanded(
-              child: ListView.separated(
-                  itemCount: articles.length,
-                  itemBuilder: (context, index) => ArticleCell(
-                        article: articles[index],
-                      ),
-                  separatorBuilder: (context, index) => const Divider(
-                        color: Colors.transparent,
-                        thickness: 1,
-                      )))
-        ]));
+
+    return Scrollbar(
+        child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(children: [
+              ...articles.map((article) => ArticleCell(article: article)),
+              const SizedBox(height: 90),
+            ])));
   }
 
   void buildDeletionDialog(BuildContext context, WidgetRef ref) {
@@ -78,10 +68,10 @@ class StockTable extends ConsumerWidget {
                     ),
                     TextButton(
                       onPressed: () async {
-                        ref.watch(articleToBeDeleted.notifier).state = null;
                         await ArticleDatabase.deleteArticle(article.name);
                         ref.watch(articlesChanged.notifier).state =
                             !ref.watch(articlesChanged);
+                        ref.watch(articleToBeDeleted.notifier).state = null;
                         Navigator.pop(context, 'Confirm');
                       },
                       child: const Text('Confirm'),
