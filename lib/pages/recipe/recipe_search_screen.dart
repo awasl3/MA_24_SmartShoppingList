@@ -7,7 +7,7 @@ class RecipeSearchScreen extends StatefulWidget {
   const RecipeSearchScreen({super.key});
 
   @override
-  _RecipeSearchScreenState createState() => _RecipeSearchScreenState();
+  State createState() => _RecipeSearchScreenState();
 }
 
 class _RecipeSearchScreenState extends State<RecipeSearchScreen> {
@@ -44,7 +44,7 @@ class _RecipeSearchScreenState extends State<RecipeSearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(child: Text("Shopping")),
+        title: const Center(child: Text('Recipe Search')),
         automaticallyImplyLeading: false,
       ),
       body: Padding(

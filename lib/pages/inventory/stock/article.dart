@@ -34,4 +34,25 @@ class Article {
   String toString() {
     return 'Article{name: $name, currentAmount: $currentAmount, dailyUsage: $dailyUsage, unit: $unit, rebuyAmount: $rebuyAmount, lastUsage: $lastUsage}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Article &&
+        other.name == name &&
+        other.currentAmount == currentAmount &&
+        other.dailyUsage == dailyUsage &&
+        other.unit == unit &&
+        other.rebuyAmount == rebuyAmount;
+  }
+
+  @override
+  int get hashCode {
+    return name.hashCode ^
+        currentAmount.hashCode ^
+        dailyUsage.hashCode ^
+        unit.hashCode ^
+        rebuyAmount.hashCode;
+  }
 }
