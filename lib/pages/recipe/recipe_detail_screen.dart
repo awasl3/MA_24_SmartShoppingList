@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
+import 'package:smart_shopping_list/pages/inventory/stock/article.dart';
 import 'package:smart_shopping_list/pages/shopping_list/items/item.dart';
 import 'package:smart_shopping_list/pages/shopping_list/shopping_list_provider.dart';
 import 'package:smart_shopping_list/util/database/article_database/article_databse.dart';
@@ -134,6 +135,28 @@ class RecipeDetailScreen extends ConsumerWidget {
                           child:
                               const Text('Add missing items to shopping list'),
                         ),
+                        const SizedBox(height: 16),
+                        ElevatedButton(onPressed: () async {
+                          ArticleDatabse db = GetIt.I.get<ArticleDatabse>();
+                          for (Ingredient ingredient in recipe.ingredients) {
+                            Article? article = await db.getArticle(ingredient.name);
+                            if(article != null) {
+                              final newAmount = article.currentAmount - ingredient.amount;
+                              Article update = Article(
+                                name: article!.name
+                              , currentAmount: newAmount > 0 ?newAmount : 0, 
+                              dailyUsage: article.dailyUsage, 
+                              unit: article.unit, 
+                              rebuyAmount: article.rebuyAmount, 
+                              lastUsage: article.lastUsage);
+                              await db.updateArticle(update);
+                            }
+                          }
+                          
+                        }
+                        , child: 
+                        const Text('Subtract ingredients from stock')
+                        )
                       ],
                     );
                   }
