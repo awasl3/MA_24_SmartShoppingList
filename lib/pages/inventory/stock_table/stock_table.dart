@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get_it/get_it.dart';
 import 'package:smart_shopping_list/pages/inventory/stock/article.dart';
 import 'package:smart_shopping_list/pages/inventory/stock_table/article_cell.dart';
+import 'package:smart_shopping_list/util/database/article_database/article_databse.dart';
 import 'package:smart_shopping_list/util/routing/provider/providers.dart';
 
 class StockTable extends ConsumerWidget {
@@ -26,10 +28,8 @@ class StockTable extends ConsumerWidget {
 
       double b2 = b.dailyUsage != 0.0 ? b.dailyUsage : double.minPositive;
 
-
       double aDaysLeft = a1 / a2;
       double bDaysLeft = b1 / b2;
-   
 
       return (a1 / a2).compareTo(b1 / b2);
     });
@@ -69,7 +69,9 @@ class StockTable extends ConsumerWidget {
                     ),
                     TextButton(
                       onPressed: () async {
-                        await ArticleDatabase.deleteArticle(article.name);
+                        await GetIt.I
+                            .get<ArticleDatabse>()
+                            .deleteArticle(article.name);
                         ref.watch(articlesChanged.notifier).state =
                             !ref.watch(articlesChanged);
                         ref.watch(articleToBeDeleted.notifier).state = null;
@@ -230,14 +232,18 @@ class StockTable extends ConsumerWidget {
                       onPressed: () async {
                         ref.watch(articleToBeEdited.notifier).state = null;
                         if (name != article.name) {
-                          await ArticleDatabase.deleteArticle(article.name);
+                          await GetIt.I
+                              .get<ArticleDatabse>()
+                              .deleteArticle(article.name);
                           Article updated = Article(
                               name: name,
                               currentAmount: currentAmount,
                               dailyUsage: dailyUsage,
                               unit: unit,
                               rebuyAmount: rebuyAmount);
-                          await ArticleDatabase.insertArticle(updated);
+                          await GetIt.I
+                              .get<ArticleDatabse>()
+                              .insertArticle(updated);
                         } else {
                           Article updated = Article(
                               name: article.name,
@@ -245,7 +251,9 @@ class StockTable extends ConsumerWidget {
                               dailyUsage: dailyUsage,
                               unit: unit,
                               rebuyAmount: rebuyAmount);
-                          await ArticleDatabase.updateArticle(updated);
+                          await GetIt.I
+                              .get<ArticleDatabse>()
+                              .updateArticle(updated);
                         }
 
                         ref.watch(articlesChanged.notifier).state =
@@ -414,7 +422,9 @@ class StockTable extends ConsumerWidget {
                                 dailyUsage: dailyUsage,
                                 unit: unit,
                                 rebuyAmount: rebuyAmount);
-                            await ArticleDatabase.insertArticle(updated);
+                            await GetIt.I
+                                .get<ArticleDatabse>()
+                                .insertArticle(updated);
                             ref.watch(articleCreation.notifier).state = false;
                             ref.watch(articlesChanged.notifier).state =
                                 !ref.watch(articlesChanged);
