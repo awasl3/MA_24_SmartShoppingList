@@ -30,9 +30,6 @@ class StockTable extends ConsumerWidget {
       double aDaysLeft = a1 / a2;
       double bDaysLeft = b1 / b2;
 
-      print('$a $aDaysLeft');
-      print('$b $bDaysLeft');
-
       return (a1 / a2).compareTo(b1 / b2);
     });
 
@@ -71,10 +68,10 @@ class StockTable extends ConsumerWidget {
                     ),
                     TextButton(
                       onPressed: () async {
-                        ref.watch(articleToBeDeleted.notifier).state = null;
                         await ArticleDatabase.deleteArticle(article.name);
                         ref.watch(articlesChanged.notifier).state =
                             !ref.watch(articlesChanged);
+                        ref.watch(articleToBeDeleted.notifier).state = null;
                         Navigator.pop(context, 'Confirm');
                       },
                       child: const Text('Confirm'),

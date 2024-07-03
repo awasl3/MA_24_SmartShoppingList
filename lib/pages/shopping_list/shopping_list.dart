@@ -106,7 +106,8 @@ class ShoppingList extends ConsumerWidget {
                       color: Colors.redAccent,
                       onPressed: () {
                         shoppingListNotifier.deleteItem(item);
-                        Navigator.of(context).pop();},
+                        Navigator.of(context).pop();
+                      },
                     ),
                 ],
               ),
@@ -122,7 +123,6 @@ class ShoppingList extends ConsumerWidget {
                 ),
               ),
               actionsAlignment: MainAxisAlignment.spaceEvenly,
-
               actions: <Widget>[
                 ElevatedButton(
                   child: const Text('Cancel'),

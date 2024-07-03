@@ -30,7 +30,7 @@ class ArticleCell extends ConsumerWidget {
       child: InkWell(
         onLongPress: () {
           ref.read(articleDeletionMode.notifier).state = true;
-          ref.watch(articleDeletionSelection.notifier).state.add(article);
+          ref.read(articleDeletionSelection.notifier).state.add(article);
         },
         onTap: () {
           if (deletionMode) {
@@ -38,7 +38,7 @@ class ArticleCell extends ConsumerWidget {
               ref.read(articleDeletionSelection.notifier).update((state) {
                 return state.where((i) => i != article).toList();
               });
-              print(ref.watch(articleDeletionSelection));
+
               if (ref.watch(articleDeletionSelection).isEmpty) {
                 ref.read(articleDeletionMode.notifier).state = false;
               }
