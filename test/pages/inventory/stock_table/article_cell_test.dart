@@ -18,19 +18,7 @@ final Article article = Article(
     lastUsage: DateTime(2024, 1, 7, 17, 30));
 
 void main() {
-  test('ArticleCell gets correct Color on selection', () {
-    final Article article = Article(
-        name: "Testarticle",
-        currentAmount: 3,
-        dailyUsage: 1,
-        unit: "liter",
-        rebuyAmount: 2,
-        lastUsage: DateTime(2024, 1, 7, 17, 30));
-    final cell = ArticleCell(article: article);
-    Color color = cell.getColor([article]);
-    expect(color, Colors.red);
-  });
-
+ 
   test('ArticleCell gets correct Color on high stock', () {
     final Article article = Article(
         name: "Testarticle",
@@ -40,8 +28,8 @@ void main() {
         rebuyAmount: 2,
         lastUsage: DateTime(2024, 1, 7, 17, 30));
     final cell = ArticleCell(article: article);
-    Color color = cell.getColor([]);
-    expect(color, Colors.green.withOpacity(0.8));
+    Color? color = cell.getColor([]);
+    expect(color, null);
   });
 
   test('ArticleCell gets correct Color on medium stock', () {
@@ -53,8 +41,8 @@ void main() {
         rebuyAmount: 2,
         lastUsage: DateTime(2024, 1, 7, 17, 30));
     final cell = ArticleCell(article: article);
-    Color color = cell.getColor([]);
-    expect(color, Colors.amber.withOpacity(0.8));
+    Color? color = cell.getColor([]);
+    expect(color, Colors.amberAccent.shade100);
   });
 
   test('ArticleCell gets correct Color on low stock', () {
@@ -66,45 +54,60 @@ void main() {
         rebuyAmount: 2,
         lastUsage: DateTime(2024, 1, 7, 17, 30));
     final cell = ArticleCell(article: article);
-    Color color = cell.getColor([]);
-    expect(color, Colors.red.withOpacity(0.8));
+    Color? color = cell.getColor([]);
+    expect(color, Colors.redAccent);
   });
 
   testWidgets('ArticleCell displays data from article', (tester) async {
-    await tester.pumpWidget(getTestWidget([]));
+    await tester.pumpWidget(getTestWidget([],article));
     final nameFinder = find.text('Testarticle');
-    final stockFinder = find.text('In stock: 3.14 liter');
-    final usageFinder = find.text('Usage: 1.59 liter/day');
+    final stockFinder = find.text('3.14 liter @ 1.59 liter/day');
+    
 
     expect(nameFinder, findsOneWidget);
     expect(stockFinder, findsOneWidget);
-    expect(usageFinder, findsOneWidget);
+
 
     Text text = nameFinder.evaluate().first.widget as Text;
     expect(text.style!.decoration, null);
-    expect(text.style!.fontSize, 30);
+    expect(text.style!.fontSize, 20);
   });
 
-  testWidgets('ArticleCell displays data with line through on deletion',
+  testWidgets('ArticleCell displays data from article with no usagae', (tester) async {
+    final Article article = Article(
+    name: "Testarticle",
+    currentAmount: 3.14,
+    dailyUsage: 0,
+    unit: "liter",
+    rebuyAmount: 265.359,
+    lastUsage: DateTime(2024, 1, 7, 17, 30));
+    await tester.pumpWidget(getTestWidget([],article));
+    final nameFinder = find.text('Testarticle');
+    final stockFinder = find.text('3.14 liter');
+    
+
+    expect(nameFinder, findsOneWidget);
+    expect(stockFinder, findsOneWidget);
+
+
+    Text text = nameFinder.evaluate().first.widget as Text;
+    expect(text.style!.decoration, null);
+    expect(text.style!.fontSize, 20);
+  });
+
+  testWidgets('ArticleCell displays data with cross on deletion',
       (tester) async {
     await tester.pumpWidget(getTestWidget([
       articleDeletionSelection.overrideWith((ref) {
         return [article];
       })
-    ]));
+    ],article));
 
-    final nameFinder = find.text('Testarticle');
-    final stockFinder = find.text('In stock: 3.14 liter');
-    final usageFinder = find.text('Usage: 1.59 liter/day');
+    final crossFinder = find.byType(Icon);
 
-    Text text = nameFinder.evaluate().first.widget as Text;
-    expect(text.style!.decoration, TextDecoration.lineThrough);
-
-    text = stockFinder.evaluate().first.widget as Text;
-    expect(text.style!.decoration, TextDecoration.lineThrough);
-
-    text = usageFinder.evaluate().first.widget as Text;
-    expect(text.style!.decoration, TextDecoration.lineThrough);
+    Icon icon = crossFinder.evaluate().first.widget as Icon;
+    expect(icon.icon, Icons.close);
+    expect(icon.size, 40);
   });
 
   testWidgets('ArticleCell changes to deletion mode on long press',
@@ -116,7 +119,7 @@ void main() {
       articleDeletionMode.overrideWith((ref) {
         return false;
       })
-    ]);
+    ],article);
     await tester.pumpWidget(testWidget);
     final element = tester.element(find.byType(ArticleCell));
     final container = ProviderScope.containerOf(element);
@@ -140,7 +143,7 @@ void main() {
       articleDeletionMode.overrideWith((ref) {
         return false;
       })
-    ]);
+    ],article);
     await tester.pumpWidget(testWidget);
     final element = tester.element(find.byType(ArticleCell));
     final container = ProviderScope.containerOf(element);
@@ -163,7 +166,7 @@ void main() {
       articleDeletionMode.overrideWith((ref) {
         return false;
       })
-    ]);
+    ],article);
     await tester.pumpWidget(testWidget);
 
     await tester.tap(find.byType(ArticleCell));
@@ -180,8 +183,8 @@ void main() {
 
   testWidgets('ArticleCell adds article to removal list on tap',
       (tester) async {
-    final Article article = Article(
-        name: "Testarticle",
+    final Article article1 = Article(
+        name: "Testarticle 1",
         currentAmount: 3.14,
         dailyUsage: 1.59,
         unit: "liter",
@@ -194,7 +197,7 @@ void main() {
       articleDeletionMode.overrideWith((ref) {
         return true;
       })
-    ]);
+    ],article1);
 
     await tester.pumpWidget(testWidget);
 
@@ -205,6 +208,7 @@ void main() {
 
     await tester.tap(find.byType(ArticleCell));
 
+    expect(container.read(articleDeletionSelection).contains(article1), true);
     expect(container.read(articleDeletionSelection).contains(article), true);
     expect(container.read(articleDeletionSelection).length, 2);
     expect(container.read(articleDeletionMode), true);
@@ -213,7 +217,7 @@ void main() {
   testWidgets('ArticleCell removes article from removal list on tap',
       (tester) async {
     final Article article1 = Article(
-        name: "Testarticle",
+        name: "Testarticle 1",
         currentAmount: 3.14,
         dailyUsage: 1.59,
         unit: "liter",
@@ -226,7 +230,7 @@ void main() {
       articleDeletionMode.overrideWith((ref) {
         return true;
       })
-    ]);
+    ],article);
 
     await tester.pumpWidget(testWidget);
 
@@ -254,7 +258,7 @@ void main() {
       articleDeletionMode.overrideWith((ref) {
         return true;
       })
-    ]);
+    ],article);
 
     await tester.pumpWidget(testWidget);
 
@@ -272,7 +276,7 @@ void main() {
   });
 }
 
-Widget getTestWidget(List<Override> overrides) {
+Widget getTestWidget(List<Override> overrides,Article article) {
   return MediaQuery(
       data: const MediaQueryData(),
       child: MaterialApp(

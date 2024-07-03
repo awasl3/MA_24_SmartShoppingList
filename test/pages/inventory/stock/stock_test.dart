@@ -46,7 +46,6 @@ void main() {
   test('Stock subtracts usage of 1 day', () async {
     DateTime date = DateTime.now();
     date = date.subtract(const Duration(days: 1));
-    print(date);
     final Article article = Article(
         name: "Testarticle",
         currentAmount: 3,
