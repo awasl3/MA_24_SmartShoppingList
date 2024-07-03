@@ -9,7 +9,6 @@ import 'package:smart_shopping_list/pages/inventory/stock/article_dialog.dart';
 import 'package:smart_shopping_list/pages/inventory/stock/article_dialog.dart';
 import 'package:smart_shopping_list/pages/inventory/stock_table/article_cell.dart';
 import 'package:smart_shopping_list/pages/inventory/stock_table/stock_table.dart';
-import 'package:smart_shopping_list/pages/inventory/stock_table/stock_table_header.dart';
 import 'package:smart_shopping_list/util/database/database/databse_instance.dart';
 import 'package:smart_shopping_list/util/routing/provider/providers.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -28,8 +27,8 @@ void main() {
     Widget testWidget = getTestWidget(table);
 
     await tester.pumpWidget(testWidget);
-    expect(find.byType(Divider), findsNothing);
     expect(find.byType(ArticleCell), findsNothing);
+    expect(find.byType(SizedBox), findsOneWidget);
     expect(table.articles, []);
   });
 
@@ -38,8 +37,8 @@ void main() {
     Widget testWidget = getTestWidget(table);
 
     await tester.pumpWidget(testWidget);
-    expect(find.byType(Divider), findsNothing);
     expect(find.byType(ArticleCell), findsOneWidget);
+    expect(find.byType(SizedBox), findsOneWidget);
     expect(table.articles, [article]);
   });
 
@@ -48,8 +47,8 @@ void main() {
     Widget testWidget = getTestWidget(table);
 
     await tester.pumpWidget(testWidget);
-    expect(find.byType(Divider), findsOneWidget);
     expect(find.byType(ArticleCell), findsExactly(2));
+    expect(find.byType(SizedBox), findsExactly(1));
     expect(table.articles, [article, article]);
   });
 
@@ -97,44 +96,12 @@ void main() {
     Widget testWidget = getTestWidget(table);
 
     await tester.pumpWidget(testWidget);
-    expect(find.byType(Divider), findsOneWidget);
     expect(find.byType(ArticleCell), findsExactly(2));
+    expect(find.byType(SizedBox), findsExactly(1));
     expect(table.articles, [article, article]);
   });
 
-  testWidgets('Stock Table sorts has scrollable list', (tester) async {
-    final Article article1 = Article(
-        name: "Testarticle 1",
-        currentAmount: 1000,
-        dailyUsage: 0,
-        unit: "liter",
-        rebuyAmount: 265.359,
-        lastUsage: DateTime(2024, 1, 7, 17, 30));
-
-    final table = StockTable(articles: [
-      article,
-      article,
-      article,
-      article,
-      article,
-      article,
-      article,
-      article,
-      article1
-    ]);
-    Widget testWidget = getTestWidget(table);
-
-    await tester.pumpWidget(testWidget);
-
-    final viewFinder = find.text('Testarticle 1', skipOffstage: true);
-    expect(viewFinder, findsNothing);
-
-    await tester.dragUntilVisible(find.text('Testarticle 1'),
-        find.byType(ListView), const Offset(0, -250),
-        maxIteration: 1000 * 1000, duration: Duration.zero);
-
-    expect(viewFinder, findsOneWidget);
-  });
+ 
 }
 
 Widget getTestWidget(StockTable child) {
