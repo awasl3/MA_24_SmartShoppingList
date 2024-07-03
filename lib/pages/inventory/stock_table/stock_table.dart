@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_shopping_list/pages/inventory/stock/article.dart';
-import 'package:smart_shopping_list/pages/inventory/stock/article_database.dart';
 import 'package:smart_shopping_list/pages/inventory/stock_table/article_cell.dart';
 import 'package:smart_shopping_list/pages/inventory/stock_table/stock_table_header.dart';
 import 'package:smart_shopping_list/util/routing/provider/providers.dart';

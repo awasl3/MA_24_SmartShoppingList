@@ -1,7 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:smart_shopping_list/pages/shopping_list/items/item.dart';
-import 'package:smart_shopping_list/util/database/database_instance_impl.dart';
-import 'package:smart_shopping_list/util/database/databse_instance.dart';
+import 'package:smart_shopping_list/util/database/database/database_instance_impl.dart';
+import 'package:smart_shopping_list/util/database/database/databse_instance.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../../main.dart';

@@ -4,9 +4,9 @@ import 'package:get_it/get_it.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:smart_shopping_list/pages/inventory/stock/article.dart';
-import 'package:smart_shopping_list/pages/inventory/stock/article_database.dart';
-import 'package:smart_shopping_list/util/database/database_instance_impl.dart';
-import 'package:smart_shopping_list/util/database/databse_instance.dart';
+import 'package:smart_shopping_list/util/database/article_database/article_databse_impl.dart';
+import 'package:smart_shopping_list/util/database/database/database_instance_impl.dart';
+import 'package:smart_shopping_list/util/database/database/databse_instance.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
@@ -47,7 +47,7 @@ Future main() async {
   });
 
   test('Database can insert Article', () async {
-    await ArticleDatabase.insertArticle(article);
+    await ArticleDatabaseImpl().insertArticle(article);
     final map = await db!.query('articles');
     expect(map, [
       {
@@ -63,8 +63,8 @@ Future main() async {
   });
 
   test('Database can get all articles', () async {
-    await ArticleDatabase.insertArticle(article);
-    final articles = await ArticleDatabase.getAllArticles();
+    await ArticleDatabaseImpl().insertArticle(article);
+    final articles = await ArticleDatabaseImpl().getAllArticles();
     expect(articles[0].toMap(), article.toMap());
     expect(articles.length, 1);
   });
@@ -78,7 +78,7 @@ Future main() async {
         rebuyAmount: 3,
         lastUsage: DateTime(2024, 1, 7, 17, 30));
 
-    await ArticleDatabase.insertArticle(update);
+    await ArticleDatabaseImpl().insertArticle(update);
     final map = await db!.query('articles');
     expect(map, [
       {
@@ -98,7 +98,7 @@ Future main() async {
         unit: "kilo",
         rebuyAmount: 3,
         lastUsage: DateTime(2024, 1, 7, 17, 30));
-    await ArticleDatabase.updateArticle(update);
+    await ArticleDatabaseImpl().updateArticle(update);
     final map1 = await db!.query('articles');
     expect(map1, [
       {
@@ -121,7 +121,7 @@ Future main() async {
         unit: "kilo",
         rebuyAmount: 3,
         lastUsage: DateTime(2024, 1, 7, 17, 30));
-    await ArticleDatabase.insertArticle(update);
+    await ArticleDatabaseImpl().insertArticle(update);
     final map = await db!.query('articles');
     expect(map, [
       {
@@ -141,7 +141,7 @@ Future main() async {
         unit: "kilo",
         rebuyAmount: 3,
         lastUsage: DateTime(2024, 1, 7, 17, 30));
-    await ArticleDatabase.updateArticle(update);
+    await ArticleDatabaseImpl().updateArticle(update);
     final map1 = await db!.query('articles');
     expect(map1.length, 1);
     expect(map1[0], {
@@ -155,20 +155,20 @@ Future main() async {
   });
 
   test('Database can delete Article', () async {
-    await ArticleDatabase.insertArticle(article);
+    await ArticleDatabaseImpl().insertArticle(article);
     final map = await db!.query('articles');
     expect(map.length, 1);
-    await ArticleDatabase.deleteArticle("Not real");
+    await ArticleDatabaseImpl().deleteArticle("Not real");
     final map1 = await db!.query('articles');
     expect(map1.length, 1);
 
-    await ArticleDatabase.deleteArticle("Testarticle");
+    await ArticleDatabaseImpl().deleteArticle("Testarticle");
     final map2 = await db!.query('articles');
     expect(map2.length, 0);
   });
 
   test('Database can get single Article', () async {
-    await ArticleDatabase.insertArticle(article);
+    await ArticleDatabaseImpl().insertArticle(article);
     Article update = Article(
         name: "Testarticle 2",
         currentAmount: 1,
@@ -176,15 +176,15 @@ Future main() async {
         unit: "kilo",
         rebuyAmount: 3,
         lastUsage: DateTime(2024, 1, 7, 17, 30));
-    await ArticleDatabase.insertArticle(update);
-    Article? get = await ArticleDatabase.getArticle("Testarticle");
+    await ArticleDatabaseImpl().insertArticle(update);
+    Article? get = await ArticleDatabaseImpl().getArticle("Testarticle");
     expect(get.toString(), article.toString());
   });
 
   test('Database gets no Article on wrong key', () async {
-    await ArticleDatabase.insertArticle(article);
+    await ArticleDatabaseImpl().insertArticle(article);
 
-    Article? get = await ArticleDatabase.getArticle("Not real");
+    Article? get = await ArticleDatabaseImpl().getArticle("Not real");
     expect(get, null);
   });
 }

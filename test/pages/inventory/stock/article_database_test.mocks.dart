@@ -6,7 +6,8 @@
 import 'dart:async' as _i4;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:smart_shopping_list/util/database/databse_instance.dart' as _i3;
+import 'package:smart_shopping_list/util/database/database/databse_instance.dart'
+    as _i3;
 import 'package:sqflite/sqflite.dart' as _i2;
 
 // ignore_for_file: type=lint

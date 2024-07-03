@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_shopping_list/pages/inventory/stock/article_database.dart';
+import 'package:get_it/get_it.dart';
 import 'package:smart_shopping_list/pages/shopping_list/items/item.dart';
 import 'package:smart_shopping_list/pages/shopping_list/shopping_list_provider.dart';
+import 'package:smart_shopping_list/util/database/article_database/article_databse.dart';
 import 'recipe_model.dart';
 
 enum IngredientStatus { available, notEnough, missing }
@@ -16,7 +17,7 @@ class RecipeDetailScreen extends ConsumerWidget {
     Map<String, IngredientStatus> ingredientAvailability = {};
 
     for (var ingredient in recipe.ingredients) {
-      final article = await ArticleDatabase.getArticle(ingredient.name);
+      final article = await GetIt.I.get<ArticleDatabse>().getArticle(ingredient.name);
       if (article != null) {
         if (article.currentAmount >= ingredient.amount) {
           ingredientAvailability[ingredient.name] = IngredientStatus.available;

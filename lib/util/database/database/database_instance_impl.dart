@@ -1,5 +1,5 @@
 import 'package:path/path.dart';
-import 'package:smart_shopping_list/util/database/databse_instance.dart';
+import 'package:smart_shopping_list/util/database/database/databse_instance.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseInstanceImpl extends DatabaseInstance {

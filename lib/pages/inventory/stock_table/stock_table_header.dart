@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get_it/get_it.dart';
 import 'package:smart_shopping_list/pages/inventory/stock/article.dart';
-import 'package:smart_shopping_list/pages/inventory/stock/article_database.dart';
 import 'package:smart_shopping_list/pages/inventory/stock/article_dialog.dart';
+import 'package:smart_shopping_list/util/database/article_database/article_databse.dart';
 import 'package:smart_shopping_list/util/routing/provider/providers.dart';
 
 class StockTableHeader extends ConsumerWidget {
@@ -65,7 +66,7 @@ class StockTableHeader extends ConsumerWidget {
                       List<Article> articles =
                           ref.read(articleDeletionSelection);
                       for (Article article in articles) {
-                        await ArticleDatabase.deleteArticle(article.name);
+                        await GetIt.I.get<ArticleDatabse>().deleteArticle(article.name);
                       }
                       ref.read(articleDeletionMode.notifier).state = false;
                       ref.read(articleDeletionSelection.notifier).state = [];
