@@ -5,7 +5,7 @@ import 'package:smart_shopping_list/pages/shopping_list/items/item_database.dart
 import 'package:smart_shopping_list/util/database/article_database/article_databse.dart';
 import 'package:smart_shopping_list/util/routing/provider/providers.dart';
 
-import '../inventory/stock/article_database.dart';
+
 import 'items/item.dart';
 
 final shoppingListProvider =
@@ -51,7 +51,8 @@ class ShoppingListNotifier extends StateNotifier<List<Item>> {
             currentAmount: article.currentAmount + item.amount,
             dailyUsage: article.currentAmount,
             unit: article.unit,
-            rebuyAmount: article.rebuyAmount));
+            rebuyAmount: article.rebuyAmount,
+            lastUsage: article.lastUsage));
       }
 
       GetIt.I.get<ArticleDatabse>().insertArticle(Article(
@@ -59,7 +60,8 @@ class ShoppingListNotifier extends StateNotifier<List<Item>> {
           currentAmount: item.amount,
           dailyUsage: 0,
           unit: item.unit,
-          rebuyAmount: item.amount));
+          rebuyAmount: item.amount,
+          lastUsage: Article.resetUsage()));
     }
 
     ref.read(articlesChanged.notifier).state = !ref.read(articlesChanged);

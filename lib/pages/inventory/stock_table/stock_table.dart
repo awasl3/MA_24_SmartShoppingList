@@ -235,22 +235,24 @@ class StockTable extends ConsumerWidget {
                           await GetIt.I
                               .get<ArticleDatabse>()
                               .deleteArticle(article.name);
-                          Article updated = Article(
+                          Article newArticle = Article(
                               name: name,
                               currentAmount: currentAmount,
                               dailyUsage: dailyUsage,
                               unit: unit,
-                              rebuyAmount: rebuyAmount);
+                              rebuyAmount: rebuyAmount,
+                              lastUsage: Article.resetUsage());
                           await GetIt.I
                               .get<ArticleDatabse>()
-                              .insertArticle(updated);
+                              .insertArticle(newArticle);
                         } else {
                           Article updated = Article(
                               name: article.name,
                               currentAmount: currentAmount,
                               dailyUsage: dailyUsage,
                               unit: unit,
-                              rebuyAmount: rebuyAmount);
+                              rebuyAmount: rebuyAmount,
+                              lastUsage:  article.lastUsage);
                           await GetIt.I
                               .get<ArticleDatabse>()
                               .updateArticle(updated);
@@ -421,7 +423,8 @@ class StockTable extends ConsumerWidget {
                                 currentAmount: currentAmount,
                                 dailyUsage: dailyUsage,
                                 unit: unit,
-                                rebuyAmount: rebuyAmount);
+                                rebuyAmount: rebuyAmount,
+                                lastUsage: Article.resetUsage());
                             await GetIt.I
                                 .get<ArticleDatabse>()
                                 .insertArticle(updated);
