@@ -40,4 +40,101 @@ void main() {
     expect(date.millisecond, 0);
     expect(date.microsecond, 0);
   });
+
+   test('Two articles with the same properties should be equal', () {
+         final date = DateTime.now();
+         
+         final article1 = Article(
+           name: 'Test Article',
+           currentAmount: 10.0,
+           dailyUsage: 0.5,
+           unit: 'kg',
+           rebuyAmount: 5.0,
+           lastUsage: date,
+         );
+
+         final article2 = Article(
+           name: 'Test Article',
+           currentAmount: 10.0,
+           dailyUsage: 0.5,
+           unit: 'kg',
+           rebuyAmount: 5.0,
+           lastUsage: date,
+         );
+
+         expect(article1, equals(article2));
+       });
+
+       test('Two articles with different properties should not be equal', () {
+         final date = DateTime.now();
+         
+         final article1 = Article(
+           name: 'Test Article 1',
+           currentAmount: 10.0,
+           dailyUsage: 0.5,
+           unit: 'kg',
+           rebuyAmount: 5.0,
+           lastUsage: date,
+         );
+
+         final article2 = Article(
+           name: 'Test Article 2',
+           currentAmount: 10.0,
+           dailyUsage: 0.5,
+           unit: 'kg',
+           rebuyAmount: 5.0,
+           lastUsage: date,
+         );
+
+         expect(article1, isNot(equals(article2)));
+       });
+
+       test('Identical articles should have the same hashCode', () {
+         final date = DateTime.now();
+         
+         final article1 = Article(
+           name: 'Test Article',
+           currentAmount: 10.0,
+           dailyUsage: 0.5,
+           unit: 'kg',
+           rebuyAmount: 5.0,
+           lastUsage: date,
+         );
+
+         final article2 = Article(
+           name: 'Test Article',
+           currentAmount: 10.0,
+           dailyUsage: 0.5,
+           unit: 'kg',
+           rebuyAmount: 5.0,
+           lastUsage: date,
+         );
+
+         expect(article1.hashCode, equals(article2.hashCode));
+       });
+
+       test('Different articles should have different hashCodes', () {
+         final date = DateTime.now();
+         
+         final article1 = Article(
+           name: 'Test Article 1',
+           currentAmount: 10.0,
+           dailyUsage: 0.5,
+           unit: 'kg',
+           rebuyAmount: 5.0,
+           lastUsage: date,
+         );
+
+         final article2 = Article(
+           name: 'Test Article 2',
+           currentAmount: 10.0,
+           dailyUsage: 0.5,
+           unit: 'kg',
+           rebuyAmount: 5.0,
+           lastUsage: date,
+         );
+
+         expect(article1.hashCode, isNot(equals(article2.hashCode)));
+       });
+   
 }
