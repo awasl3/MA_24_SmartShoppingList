@@ -40,8 +40,11 @@ class DatabaseInstanceImpl extends DatabaseInstance {
           return db.execute(
               'CREATE TABLE shopping_list(name TEXT PRIMARY KEY, amount REAL, unit TEXT, checked INTEGER DEFAULT 0)');
         }
+        if(oldVersion < 3) {
+          db.execute('ALTER TABLE articles ADD lastUsage TEXT');
+        }
       },
-      version: 2,
+      version: 3,
     );
     return database;
   }
