@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get_it/get_it.dart';
 import 'package:smart_shopping_list/pages/inventory/stock/article.dart';
-import 'package:smart_shopping_list/pages/inventory/stock/article_database.dart';
+import 'package:smart_shopping_list/util/database/article_database/article_databse.dart';
 import 'package:smart_shopping_list/util/routing/provider/providers.dart';
 
 import '../../../util/widget/input_field.dart';
@@ -91,22 +92,30 @@ class ArticleDialog {
                                 double.tryParse(rebuyAmountController.text) ??
                                     0.0;
                             final newArticle = Article(
-                              name: name,
-                              currentAmount: currentAmount,
-                              dailyUsage: dailyUsage,
-                              unit: unit,
-                              rebuyAmount: rebuyAmount,
-                            );
+                                name: name,
+                                currentAmount: currentAmount,
+                                dailyUsage: dailyUsage,
+                                unit: unit,
+                                rebuyAmount: rebuyAmount,
+                                lastUsage: Article.resetUsage());
 
                             if (article == null) {
-                              await ArticleDatabase.insertArticle(newArticle);
+                              await GetIt.I
+                                  .get<ArticleDatabse>()
+                                  .insertArticle(newArticle);
                             } else {
                               if (article!.name == newArticle.name) {
-                                await ArticleDatabase.updateArticle(newArticle);
+                                newArticle.lastUsage = article!.lastUsage;
+                                await GetIt.I
+                                    .get<ArticleDatabse>()
+                                    .updateArticle(newArticle);
                               } else {
-                                await ArticleDatabase.deleteArticle(
-                                    article!.name);
-                                await ArticleDatabase.insertArticle(newArticle);
+                                await GetIt.I
+                                    .get<ArticleDatabse>()
+                                    .deleteArticle(article!.name);
+                                await GetIt.I
+                                    .get<ArticleDatabse>()
+                                    .insertArticle(newArticle);
                               }
                             }
 

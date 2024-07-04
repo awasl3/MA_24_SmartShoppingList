@@ -1,11 +1,11 @@
+import 'package:get_it/get_it.dart';
 import 'package:smart_shopping_list/pages/shopping_list/items/item.dart';
+import 'package:smart_shopping_list/util/database/database/databse_instance.dart';
 import 'package:sqflite/sqflite.dart';
-
-import '../../../main.dart';
 
 class ItemDatabase {
   static Future<void> insertArticle(Item item) async {
-    final db = await database;
+    final db = await GetIt.I.get<DatabaseInstance>().getDatabase();
     await db.insert(
       'shopping_list',
       item.toMap(),
@@ -14,7 +14,7 @@ class ItemDatabase {
   }
 
   static Future<List<Item>> getAllItems() async {
-    final db = await database;
+    final db = await GetIt.I.get<DatabaseInstance>().getDatabase();
 
     final List<Map<String, Object?>> itemsMap = await db.query('shopping_list');
     return [
@@ -29,7 +29,7 @@ class ItemDatabase {
   }
 
   static Future<void> updateItem(Item item) async {
-    final db = await database;
+    final db = await GetIt.I.get<DatabaseInstance>().getDatabase();
 
     await db.update(
       'shopping_list',
@@ -40,7 +40,7 @@ class ItemDatabase {
   }
 
   static Future<void> deleteItem(String name) async {
-    final db = await database;
+    final db = await GetIt.I.get<DatabaseInstance>().getDatabase();
     await db.delete(
       'shopping_list',
       where: 'name = ?',
@@ -49,7 +49,7 @@ class ItemDatabase {
   }
 
   static Future<Item?> getItem(String name) async {
-    final db = await database;
+    final db = await GetIt.I.get<DatabaseInstance>().getDatabase();
     List<Map<String, Object?>> result =
         await db.query('shopping_list', where: 'name = ?', whereArgs: [name]);
     if (result.isEmpty) {
