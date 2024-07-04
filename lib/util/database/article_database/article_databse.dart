@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:smart_shopping_list/pages/inventory/stock/article.dart';
 
 abstract class ArticleDatabse {

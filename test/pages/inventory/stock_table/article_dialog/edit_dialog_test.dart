@@ -8,7 +8,6 @@ import 'package:smart_shopping_list/pages/inventory/stock_table/article_cell.dar
 import 'package:smart_shopping_list/util/database/article_database/article_databse.dart';
 import 'package:smart_shopping_list/util/routing/provider/providers.dart';
 
-import '../article_cell_test.dart';
 import '../stock_table_header_deletion_confirm_test.mocks.dart';
 
 void main() {

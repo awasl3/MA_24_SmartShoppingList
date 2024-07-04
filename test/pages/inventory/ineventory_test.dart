@@ -2,13 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:smart_shopping_list/pages/inventory/inventory.dart';
 import 'package:smart_shopping_list/pages/inventory/stock/article.dart';
-import 'package:smart_shopping_list/pages/inventory/stock/article_dialog.dart';
-import 'package:smart_shopping_list/pages/inventory/stock/article_dialog.dart';
-import 'package:smart_shopping_list/pages/inventory/stock_table/article_cell.dart';
 import 'package:smart_shopping_list/pages/inventory/stock_table/stock_table.dart';
 import 'package:smart_shopping_list/util/database/article_database/article_databse.dart';
 import 'package:smart_shopping_list/util/routing/provider/providers.dart';
@@ -41,7 +37,7 @@ void main() {
     final finder = find.byType(CircularProgressIndicator);
     expect(finder, findsOneWidget);
 
-    await tester.pump(Duration(seconds: 111));
+    await tester.pump(const Duration(seconds: 111));
     expect(finder, findsNothing);
     verify(mock.getAllArticles()).called(1);
   });

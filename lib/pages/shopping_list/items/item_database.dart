@@ -3,8 +3,6 @@ import 'package:smart_shopping_list/pages/shopping_list/items/item.dart';
 import 'package:smart_shopping_list/util/database/database/databse_instance.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../../../main.dart';
-
 class ItemDatabase {
   static Future<void> insertArticle(Item item) async {
     final db = await GetIt.I.get<DatabaseInstance>().getDatabase();

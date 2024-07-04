@@ -12,8 +12,9 @@ class DatabaseInstanceImpl extends DatabaseInstance {
 
   @override
   Future<Database> getDatabase() async {
-    if (DatabaseInstanceImpl._database != null)
+    if (DatabaseInstanceImpl._database != null) {
       return DatabaseInstanceImpl._database!;
+    }
     DatabaseInstanceImpl._database = await initDB();
     return DatabaseInstanceImpl._database!;
   }

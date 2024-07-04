@@ -1,17 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:get_it/get_it.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
 import 'package:smart_shopping_list/pages/inventory/stock/article.dart';
-import 'package:smart_shopping_list/pages/inventory/stock/article_dialog.dart';
-import 'package:smart_shopping_list/pages/inventory/stock/article_dialog.dart';
 import 'package:smart_shopping_list/pages/inventory/stock_table/article_cell.dart';
 import 'package:smart_shopping_list/pages/inventory/stock_table/stock_table.dart';
-import 'package:smart_shopping_list/util/database/database/databse_instance.dart';
-import 'package:smart_shopping_list/util/routing/provider/providers.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {
   final Article article = Article(

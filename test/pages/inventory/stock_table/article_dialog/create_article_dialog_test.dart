@@ -2,14 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:smart_shopping_list/pages/inventory/inventory.dart';
 import 'package:smart_shopping_list/pages/inventory/stock/article.dart';
-import 'package:smart_shopping_list/pages/inventory/stock/article_dialog.dart';
-import 'package:smart_shopping_list/pages/inventory/stock/article_dialog.dart';
-import 'package:smart_shopping_list/pages/inventory/stock_table/article_cell.dart';
-import 'package:smart_shopping_list/pages/inventory/stock_table/stock_table.dart';
 import 'package:smart_shopping_list/util/database/article_database/article_databse.dart';
 import 'package:smart_shopping_list/util/routing/provider/providers.dart';
 
@@ -166,7 +161,8 @@ void main() {
 
 Widget getTestWidget(List<Override> overrides) {
   return MediaQuery(
-      data: MediaQueryData(),
+      data: const MediaQueryData(),
       child: MaterialApp(
-          home: ProviderScope(overrides: overrides, child: InventoryPage())));
+          home: ProviderScope(
+              overrides: overrides, child: const InventoryPage())));
 }

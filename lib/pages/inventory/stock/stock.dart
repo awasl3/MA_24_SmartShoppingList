@@ -1,8 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:smart_shopping_list/pages/inventory/stock/article.dart';
 import 'package:smart_shopping_list/util/database/article_database/article_databse.dart';
-import 'package:units_converter/properties/mass.dart';
-import 'package:units_converter/units_converter.dart';
 
 class Stock {
   static Future<void> subtractDailyUsage() async {

@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
-import 'package:path/path.dart';
 import 'package:smart_shopping_list/pages/inventory/stock/stock.dart';
 import 'package:smart_shopping_list/util/database/article_database/article_databse.dart';
 import 'package:smart_shopping_list/util/database/article_database/article_databse_impl.dart';
 import 'package:smart_shopping_list/util/database/database/database_instance_impl.dart';
 import 'package:smart_shopping_list/util/database/database/databse_instance.dart';
 import 'package:smart_shopping_list/util/routing/router.dart';
-import 'package:sqflite/sqflite.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

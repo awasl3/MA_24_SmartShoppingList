@@ -1,11 +1,8 @@
-import 'dart:convert';
-
 import 'package:get_it/get_it.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:smart_shopping_list/pages/inventory/stock/article.dart';
 import 'package:smart_shopping_list/util/database/article_database/article_databse_impl.dart';
-import 'package:smart_shopping_list/util/database/database/database_instance_impl.dart';
 import 'package:smart_shopping_list/util/database/database/databse_instance.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:test/expect.dart';

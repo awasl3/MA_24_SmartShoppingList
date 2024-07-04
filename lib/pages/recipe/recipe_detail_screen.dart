@@ -99,7 +99,7 @@ class RecipeDetailScreen extends ConsumerWidget {
                                   style: TextStyle(color: statusColor)),
                             ),
                           );
-                        }).toList(),
+                        }),
                         const SizedBox(height: 16),
                         ElevatedButton(
                           onPressed: () {
@@ -136,27 +136,30 @@ class RecipeDetailScreen extends ConsumerWidget {
                               const Text('Add missing items to shopping list'),
                         ),
                         const SizedBox(height: 16),
-                        ElevatedButton(onPressed: () async {
-                          ArticleDatabse db = GetIt.I.get<ArticleDatabse>();
-                          for (Ingredient ingredient in recipe.ingredients) {
-                            Article? article = await db.getArticle(ingredient.name);
-                            if(article != null) {
-                              final newAmount = article.currentAmount - ingredient.amount;
-                              Article update = Article(
-                                name: article!.name
-                              , currentAmount: newAmount > 0 ?newAmount : 0, 
-                              dailyUsage: article.dailyUsage, 
-                              unit: article.unit, 
-                              rebuyAmount: article.rebuyAmount, 
-                              lastUsage: article.lastUsage);
-                              await db.updateArticle(update);
-                            }
-                          }
-                          
-                        }
-                        , child: 
-                        const Text('Subtract ingredients from stock')
-                        )
+                        ElevatedButton(
+                            onPressed: () async {
+                              ArticleDatabse db = GetIt.I.get<ArticleDatabse>();
+                              for (Ingredient ingredient
+                                  in recipe.ingredients) {
+                                Article? article =
+                                    await db.getArticle(ingredient.name);
+                                if (article != null) {
+                                  final newAmount =
+                                      article.currentAmount - ingredient.amount;
+                                  Article update = Article(
+                                      name: article.name,
+                                      currentAmount:
+                                          newAmount > 0 ? newAmount : 0,
+                                      dailyUsage: article.dailyUsage,
+                                      unit: article.unit,
+                                      rebuyAmount: article.rebuyAmount,
+                                      lastUsage: article.lastUsage);
+                                  await db.updateArticle(update);
+                                }
+                              }
+                            },
+                            child:
+                                const Text('Subtract ingredients from stock'))
                       ],
                     );
                   }
